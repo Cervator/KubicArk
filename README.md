@@ -5,3 +5,7 @@ A setup for making [ARK: Survival Evolved](https://store.steampowered.com/app/34
 An eventual goal is to include automatic server hibernation to keep hosting costs down while using [ChatOps](https://docs.stackstorm.com/chatops/chatops.html) for server maintenance tasks (for instance: asking a bot on Discord to please start up the server hosting map `x` when somebody wants to play there)
 
 Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from https://github.com/NightDragon1/Ark-docker which in turn uses https://github.com/arkmanager/ark-server-tools for helpful management of the game server installation on Linux.
+
+## License
+
+This project is licensed under Apache v2.0 with contributions and forks welcome.
