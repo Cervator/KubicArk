@@ -60,3 +60,6 @@ data:
     # Each compressed backup is generally about 1-2MB in size.
     #arkMaxBackupSizeMB="500"                                          # Set to automatically remove old backups when size exceeds this limit
     arkMaxBackupSizeGB="2"
+
+    # Change the location of config files to match what's provided externally
+    arkGameUserSettingsIniFile=/ark/MergedGameUserSettings.ini
