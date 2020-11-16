@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-user-settings-cm
+data:
+  GlobalGameUserSettings.ini: |-
+    [ServerSettings]
+    OverrideOfficialDifficulty=5.000000
+    DifficultyOffset=1
+    ShowMapPlayerLocation=True
+    AllowThirdPersonPlayer=True
+    ServerCrosshair=True
+    ServerPassword=pass
+    ServerAdminPassword=adminpass
+    RCONEnabled=True
+    RCONPort=32330
+    TheMaxStructuresInRange=10500.000000
+    OxygenSwimSpeedStatMultiplier=1.000000
+    StructurePreventResourceRadiusMultiplier=1.000000
+    TribeNameChangeCooldown=15.000000
+    PlatformSaddleBuildAreaBoundsMultiplier=1.000000
+    StructurePickupTimeAfterPlacement=30.000000
+    StructurePickupHoldDuration=0.500000
+    AllowIntegratedSPlusStructures=True
+    AllowHideDamageSourceFromLogs=True
+    RaidDinoCharacterFoodDrainMultiplier=1.000000
+    PvEDinoDecayPeriodMultiplier=1.000000
+    KickIdlePlayersPeriod=3600.000000
+    PerPlatformMaxStructuresMultiplier=1.000000
+    AutoSavePeriodMinutes=15.000000
+    ListenServerTetherDistanceMultiplier=1.000000
+    MaxTamedDinos=5000.000000
+    ItemStackSizeMultiplier=1.000000
+    RCONServerGameLogBuffer=600.000000
+    AllowHitMarkers=True
+
+    [ScalabilityGroups]
+    sg.ResolutionQuality=100
+    sg.ViewDistanceQuality=3
+    sg.AntiAliasingQuality=3
+    sg.ShadowQuality=3
+    sg.PostProcessQuality=3
+    sg.TextureQuality=3
+    sg.EffectsQuality=3
+    sg.TrueSkyQuality=3
+    sg.GroundClutterQuality=3
+    sg.IBLQuality=1
+    sg.HeightFieldShadowQuality=3
+    sg.GroundClutterRadius=10000

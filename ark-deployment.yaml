@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arkgame
+  labels:
+    app: arkgame
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arkgame
+  template:
+    metadata:
+      labels:
+        app: arkgame
+    spec:
+      containers:
+      - image: nightdragon1/ark-docker
+        name: arkgame
+        env:
+          # Server Parameters
+        - name: SESSIONNAME
+          value: KubicArkTestServer
+        - name: SERVERMAP
+          value: Ragnarok
+        - name: SERVERPASSWORD
+          value: pass
+        - name: ADMINPASSWORD
+          value: adminpass
+        ports:
+          - containerPort: 27015
+            protocol: UDP
+            name: ark-steams
+          - containerPort: 7777
+            protocol: UDP
+            name: ark-gameclient
+          - containerPort: 7778
+            protocol: UDP
+            name: ark-gamerawudp
+        volumeMounts:
+        - name: arkgame-persistent-storage
+          mountPath: /ark
+        - name: arkgame-persistent-shared-storage
+          mountPath: /ark-shared
+        - name: arkgame-config-volume
+          mountPath: /ark-config
+
+      # Use an init container to help prepare some config files before the main container starts
+      initContainers:
+        - name: kubic-ark-prep-container
+          image: busybox:1.28
+          volumeMounts:
+          - name: arkgame-persistent-storage
+            mountPath: /ark
+          - name: arkgame-config-volume
+            mountPath: /ark-config
+          command: ['sh', '-c']
+          args:
+            - cd /ark-config;
+              ls -la;
+              # cat arkmanager.cfg;
+              # cat GlobalGameUserSettings.ini;
+              # cat OverrideGameUserSettings.ini;
+
+              rm -f /ark/tmp0 /ark/tmp1 /ark/merged.file /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;
+              cat OverrideGameUserSettings.ini > /ark/tmp0;
+              echo "" >> /ark/tmp0;
+              cat GlobalGameUserSettings.ini >> /ark/tmp0;
+              awk -F "=" '!a[$1]++' /ark/tmp0 > /ark/tmp1 && mv /ark/tmp1 /ark/merged.file && rm /ark/tmp0;
+
+              # cat /ark/merged.file;
+              mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
+              cp /ark/merged.file /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;
+              cd /ark;
+              ln -s /ark-config/arkmanager.cfg arkmanager.cfg ;
+      volumes:
+      - name: arkgame-persistent-storage
+        persistentVolumeClaim:
+          claimName: arkgame-pv-claim
+      - name: arkgame-persistent-shared-storage
+        persistentVolumeClaim:
+          claimName: arkgame-shared-pv-claim
+      - name: arkgame-config-volume
+        projected:
+          sources:
+          - configMap:
+              name: global-user-settings-cm
+          - configMap:
+              name: override-user-settings-cm
+          - configMap:
+              name: ark-manager-cm

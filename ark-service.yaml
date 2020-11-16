@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: arkgame
+  labels:
+    app: arkgame
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 27015
+    targetPort: 27015
+    protocol: UDP
+    name: ark-steam
+  - port: 7777
+    targetPort: 7777
+    protocol: UDP
+    name: ark-gameclient
+  - port: 7778
+    targetPort: 7778
+    protocol: UDP
+    name: ark-gamerawudpport
+  selector:
+    app: arkgame
