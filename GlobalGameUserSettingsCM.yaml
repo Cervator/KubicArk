@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: global-user-settings-cm
+  name: ark-global-user-settings-cm
 data:
   GlobalGameUserSettings.ini: |-
     [ServerSettings]

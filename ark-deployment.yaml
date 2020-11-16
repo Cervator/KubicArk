@@ -84,8 +84,8 @@ spec:
         projected:
           sources:
           - configMap:
-              name: global-user-settings-cm
+              name: ark-global-user-settings-cm
           - configMap:
-              name: override-user-settings-cm
+              name: ark-override-user-settings-cm
           - configMap:
               name: ark-manager-cm
