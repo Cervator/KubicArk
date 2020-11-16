@@ -58,17 +58,11 @@ spec:
           args:
             - cd /ark-config;
               ls -la;
-              # cat arkmanager.cfg;
-              # cat GlobalGameUserSettings.ini;
-              # cat OverrideGameUserSettings.ini;
-
               rm -f /ark/tmp0 /ark/tmp1 /ark/merged.file /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;
               cat OverrideGameUserSettings.ini > /ark/tmp0;
               echo "" >> /ark/tmp0;
               cat GlobalGameUserSettings.ini >> /ark/tmp0;
               awk -F "=" '!a[$1]++' /ark/tmp0 > /ark/tmp1 && mv /ark/tmp1 /ark/merged.file && rm /ark/tmp0;
-
-              # cat /ark/merged.file;
               mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
               cp /ark/merged.file /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;
               cd /ark;
