@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ark-player-lists-cm
+data:
+  # 2091 = Cervator
+  AllowedCheaterSteamIDs.txt: |-
+      76561198030942091
+
+  PlayersJoinNoCheck.txt: |-
+      76561198030942091
+
+  PlayersExclusiveJoinList.txt: |-
+      76561198030942091

@@ -58,7 +58,7 @@ spec:
           args:
             - cd /ark-config;
               ls -la;
-              rm -f /ark/tmp0 /ark/tmp1 /ark/MergedGameUserSettings.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini;
+              rm -f /ark/tmp0 /ark/tmp1 /ark/MergedGameUserSettings.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
               cat OverrideGameUserSettings.ini > /ark/tmp0;
               echo "" >> /ark/tmp0;
               cat GlobalGameUserSettings.ini >> /ark/tmp0;
@@ -67,6 +67,8 @@ spec:
               cd /ark;
               ln -s /ark-config/arkmanager.cfg arkmanager.cfg ;
               ln -s /ark-config/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt;
+              ln -s /ark-config/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt;
+              ln -s /ark-config/PlayersExclusiveJoinList.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
       volumes:
       - name: arkgame-persistent-storage
         persistentVolumeClaim:
@@ -84,4 +86,4 @@ spec:
           - configMap:
               name: ark-manager-cm
           - configMap:
-              name: ark-allowed-cheaters-cm
+              name: ark-player-lists-cm
