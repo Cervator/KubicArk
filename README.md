@@ -19,6 +19,8 @@ Apply the resources to a target Kubernetes cluster with some attention paid to o
 * `kubectl apply -f ark-deployment.yaml`
 * `kubectl apply -f ark-service.yaml`
 
+There is also a `delete-all.sh` included for convenience.
+
 ## ARK Configuration files
 
 To easily configure a given ARK server via Git without touching the server several server config files are included via Kubernetes Config Maps (CMs)
@@ -33,6 +35,16 @@ To make it easier to distinguish between default settings and map-specific setti
 
 **Note:** The ARK server or maybe the ark-manager utility doesn't like incomplete config files and will restore a default if something is missing - even client-side entries that make no sense in the context of a headless server. If a config file like `GameUserSettings.ini` seems to _reset_ that might be the problem. Try to start fresh with a default config file then apply your customizations.
 
+### Making changes
+
+Game config changes usually go into one of three main files - the `arkmanager.cfg`, `GameUserSettings.ini`, or `Game.ini`
+
+For instance with `GameUserSettings.ini` favor leaving a set of boring / default entries in the `GlobalGameUserSettingsCM.yaml` file then add the more interesting values you care about in `OverrideGameUserSettingsCM.yaml` making it easier to see what you've changed and how. Although game cluster-wide config settings may be best to leave in the global CM to avoid overlap.
+
+After initial config and provisioning you can change the CMs either via files or directly, such as via the nice Google Kubernetes Engine dashboard. Then simply delete the server pod (not the deployment) via dashboard or eventually using ChatOps. The persistent volume survives including the installed game server files, so it may not make an appreciable difference to restart the server (via Ark Manager in a remote shell) or blow it up. The deployment will auto-recreate the pod if deleted.
+
+Note that the `arkmanager.cfg` entries will overwrite anything else, such as the server name.
+
 ### Gory details
 
 On initial creating of a game server pod the CMs associated with that pod will be mapped to a projected volume in `/ark/config/` - essentially meaning you'll get files there representing the CMs. As part of initialization those files are either copied forward to somewhere else or used for symbolic links.
@@ -40,6 +52,10 @@ On initial creating of a game server pod the CMs associated with that pod will b
 The CMs that come in pairs will be combined to a "merged" file in the `/ark/` dir. This is crudely done and won't necessarily result in a pretty file, but ultimately the settings should be used by the game server. For `GameUserSettings.ini` for instance the Ark Manager is instructed via its config file `arkmanager.cfg` to copy in the merged file to the server directory at `/ark/server/ShooterGame/Saved/Config/LinuxServer` as the server starts up. This approach has the added benefit of working on the very first server start, no restart needed, all your customizations will be already applied.
 
 During Ark Manager and game server startup the file appears to be somewhat rewritten. The ini file `[category]` blocks for instance won't merge cleanly from the CM process, so it may be easier to exclude the category tags in the CM files, yet by the time the server is online those categories will have been readded (although not necessarily grouped correctly)
+
+## Connecting to your server
+
+Find your IP via `kubectl get svc arkgame-service` and add both IP + port to the Steam server panel then find games at that address and mark your server as a favorite. It should now show up in-game. It takes a little while for the server to come online, you can watch it with `kubectl logs arkgame-7d74dd65bc-gqckv` (adjust accordingly to your pod name, seen with `kubectl get pods`) or by using `arkmanager status` on a remote shell.
 
 ## License
 
