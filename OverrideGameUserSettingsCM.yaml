@@ -4,16 +4,16 @@ metadata:
   name: ark-override-user-settings-cm
 data:
   OverrideGameUserSettings.ini: |-
-[ServerSettings]
-OverrideOfficialDifficulty=5.000000
-DifficultyOffset=1
+    [ServerSettings]
+    OverrideOfficialDifficulty=5.000000
+    DifficultyOffset=1
 
-[SessionSettings]
-SessionName=KubicArkTestServer123
+    [SessionSettings]
+    SessionName=KubicArkTestServer123
 
-[/Script/Engine.GameSession]
-MaxPlayers=20
+    [/Script/Engine.GameSession]
+    MaxPlayers=20
 
-[MessageOfTheDay]
-Duration=200
-Message=Now with 9000% more YAML!
+    [MessageOfTheDay]
+    Duration=200
+    Message=Now with 9000% more YAML!
