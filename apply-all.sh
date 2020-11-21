@@ -3,6 +3,8 @@ kubectl apply -f ark-pvc-shared.yaml
 kubectl apply -f ArkManagerCfgCM.yaml
 kubectl apply -f GlobalGameUserSettingsCM.yaml
 kubectl apply -f OverrideGameUserSettingsCM.yaml
+kubectl apply -f ArkPlayerListsCM.yaml
 kubectl apply -f ark-service.yaml
-sleep 10
+echo "Sleeping just a bit"
+sleep 5
 kubectl apply -f ark-deployment.yaml

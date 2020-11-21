@@ -15,6 +15,7 @@ Apply the resources to a target Kubernetes cluster with some attention paid to o
 * `kubectl apply -f ArkManagerCfgCM.yaml`
 * `kubectl apply -f GlobalGameUserSettingsCM.yaml`
 * `kubectl apply -f OverrideGameUserSettingsCM.yaml`
+* `kubectl apply -f ArkPlayerListsCM.yaml`
 * `kubectl apply -f ark-deployment.yaml`
 * `kubectl apply -f ark-service.yaml`
 
