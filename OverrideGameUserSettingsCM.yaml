@@ -3,17 +3,17 @@ kind: ConfigMap
 metadata:
   name: ark-override-user-settings-cm
 data:
+  # Note: Even with this called an "override" config file any settings from the Ark Manager will take precedence
   OverrideGameUserSettings.ini: |-
-    [ServerSettings]
     OverrideOfficialDifficulty=5.000000
     DifficultyOffset=1
 
     [SessionSettings]
-    SessionName=KubicArkTestServer123
+    SessionName=ThisNameIsIgnored
 
     [/Script/Engine.GameSession]
-    MaxPlayers=20
+    MaxPlayers=42
 
     [MessageOfTheDay]
-    Duration=200
+    Duration=20
     Message=Now with 9000% more YAML!

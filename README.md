@@ -8,7 +8,7 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 ## Instructions
 
-Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment)
+Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-all.sh` script to do it all in one go.
 
 * `kubectl apply -f ark-pvc.yaml`
 * `kubectl apply -f ark-pvc-shared.yaml`
@@ -18,6 +18,28 @@ Apply the resources to a target Kubernetes cluster with some attention paid to o
 * `kubectl apply -f ark-deployment.yaml`
 * `kubectl apply -f ark-service.yaml`
 
+## ARK Configuration files
+
+To easily configure a given ARK server via Git without touching the server several server config files are included via Kubernetes Config Maps (CMs)
+
+* `GameUserSettings.ini` - contains most the typical gameplay related settings.
+* `Game.ini` - TODO
+* `AllowedCheaterSteamIDs.txt` - for Steam profile ids that will automatically have access to console cheats
+* `PlayersJoinNoCheck.txt` & `PlayersExclusiveJoinList.txt` - for allowing player access in some fashion - exact distinction should be clarified but hasn't been tested here yet
+* `arkmanager.cfg` - SPECIAL - this config file is actually for the Ark Manager utility, which in turn will apply a few settings to the game server with complete disregard for the game server config files (will override entries in `GameUserSettings.ini` for instance)
+
+To make it easier to distinguish between default settings and map-specific settings in a game cluster setup there are _two_ separate CMs for files like `GameUserSettings.ini` - the base set, intended to be used globally (to not have to repeat yourself), and an override set meant to be used per-map for anything uniquely defined just there.
+
+**Note:** The ARK server or maybe the ark-manager utility doesn't like incomplete config files and will restore a default if something is missing - even client-side entries that make no sense in the context of a headless server. If a config file like `GameUserSettings.ini` seems to _reset_ that might be the problem. Try to start fresh with a default config file then apply your customizations.
+
+### Gory details
+
+On initial creating of a game server pod the CMs associated with that pod will be mapped to a projected volume in `/ark/config/` - essentially meaning you'll get files there representing the CMs. As part of initialization those files are either copied forward to somewhere else or used for symbolic links.
+
+The CMs that come in pairs will be combined to a "merged" file in the `/ark/` dir. This is crudely done and won't necessarily result in a pretty file, but ultimately the settings should be used by the game server. For `GameUserSettings.ini` for instance the Ark Manager is instructed via its config file `arkmanager.cfg` to copy in the merged file to the server directory at `/ark/server/ShooterGame/Saved/Config/LinuxServer` as the server starts up. This approach has the added benefit of working on the very first server start, no restart needed, all your customizations will be already applied.
+
+During Ark Manager and game server startup the file appears to be somewhat rewritten. The ini file `[category]` blocks for instance won't merge cleanly from the CM process, so it may be easier to exclude the category tags in the CM files, yet by the time the server is online those categories will have been readded (although not necessarily grouped correctly)
+
 ## License
 
-This project is licensed under Apache v2.0 with contributions and forks welcome.
+This project is licensed under Apache v2.0 with contributions and forks welcome. The associated tools and ARK itself of course are governed by their own project details.
