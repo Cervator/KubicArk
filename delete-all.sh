@@ -5,6 +5,7 @@ kubectl delete -f OverrideGameUserSettingsCM.yaml
 kubectl delete -f GlobalGameIniCM.yaml
 kubectl delete -f OverrideGameIniCM.yaml
 kubectl delete -f ArkPlayerListsCM.yaml
+kubectl delete -f ark-server-secrets.yaml
 kubectl delete -f ark-pvc.yaml
 kubectl delete -f ark-pvc-shared.yaml
 kubectl delete -f ark-service.yaml

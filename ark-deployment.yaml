@@ -83,7 +83,7 @@ spec:
               cat /ark/tmp10;
               awk -F "=" '!a[$1]++' /ark/tmp10 > /ark/tmp11 && mv /ark/tmp11 /ark/MergedGame.ini && rm /ark/tmp10;
               echo "***MergedGame.ini after streamlining***";
-              cat /ark/tmp10;
+              cat /ark/MergedGame.ini;
               mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
               cd /ark;
               ln -s /ark-config/arkmanager.cfg arkmanager.cfg ;
