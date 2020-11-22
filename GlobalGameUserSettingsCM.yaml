@@ -5,32 +5,85 @@ metadata:
 data:
   GlobalGameUserSettings.ini: |-
     [ServerSettings]
+    OverrideOfficialDifficulty=5.000000
+    DifficultyOffset=1
+
     ShowMapPlayerLocation=True
     AllowThirdPersonPlayer=True
     ServerCrosshair=True
-    ServerPassword=pass
-    ServerAdminPassword=adminpass
-    RCONEnabled=True
-    RCONPort=32330
-    TheMaxStructuresInRange=10500.000000
-    OxygenSwimSpeedStatMultiplier=1.000000
-    StructurePreventResourceRadiusMultiplier=1.000000
-    TribeNameChangeCooldown=15.000000
-    PlatformSaddleBuildAreaBoundsMultiplier=1.000000
-    StructurePickupTimeAfterPlacement=30.000000
-    StructurePickupHoldDuration=0.500000
-    AllowIntegratedSPlusStructures=True
-    AllowHideDamageSourceFromLogs=True
-    RaidDinoCharacterFoodDrainMultiplier=1.000000
-    PvEDinoDecayPeriodMultiplier=1.000000
-    KickIdlePlayersPeriod=3600.000000
-    PerPlatformMaxStructuresMultiplier=1.000000
-    AutoSavePeriodMinutes=15.000000
-    ListenServerTetherDistanceMultiplier=1.000000
-    MaxTamedDinos=5000.000000
-    ItemStackSizeMultiplier=1.000000
-    RCONServerGameLogBuffer=600.000000
     AllowHitMarkers=True
+    KickIdlePlayersPeriod=36000
+    AllowHideDamageSourceFromLogs=True
+
+    ServerPVE=true
+    AllowFlyerCarryPvE=true
+    ServerHardcore=false
+    PreventOfflinePvP=false
+    PvPDinoDecay=true
+    PreventOfflinePvPInterval=900
+
+    NightTimeSpeedScale=2
+    OxygenSwimSpeedStatMultiplier=1
+    ItemStackSizeMultiplier=1
+    TribeNameChangeCooldown=15
+    TribeLogDestroyedEnemyStructures=true
+    PreventTribeAlliances=false
+    ShowFloatingDamageText=false
+    PreventDiseases=false
+    NonPermanentDiseases=true
+    DisableImprintDinoBuff=false
+    AllowAnyoneBabyImprintCuddle=true
+
+    TheMaxStructuresInRange=10500
+    StructurePreventResourceRadiusMultiplier=1
+    StructurePickupTimeAfterPlacement=60
+    StructurePickupHoldDuration=0.5
+    AllowIntegratedSPlusStructures=True
+    AllowCaveBuildingPvE=true
+    DisableStructureDecayPvE=true
+    PvPStructureDecay=false
+    PvEStructureDecayDestructionPeriod=1.0
+    StructureDamageRepairCooldown=180
+    ForceAllStructureLocking=true
+    AutoDestroyOldStructuresMultiplier=0
+    MaxPlatformSaddleStructureLimit=100
+    OnlyDecayUnsnappedCoreStructures=true
+    FastDecayUnsnappedCoreStructures=true
+    PvEAllowStructuresAtSupplyDrops=true
+    OverrideStructurePlatformPrevention=true
+    EnableExtraStructurePreventionVolumes=false
+
+    MaxTamedDinos=5000
+    PlatformSaddleBuildAreaBoundsMultiplier=1.5
+    PerPlatformMaxStructuresMultiplier=1
+    AllowRaidDinoFeeding=true
+    RaidDinoCharacterFoodDrainMultiplier=1
+    PvEDinoDecayPeriodMultiplier=1
+    TamedDinoDamageMultiplier=1.0
+    TamedDinoResistanceMultiplier=1.0
+    TamingSpeedMultiplier=5
+    DisableDinoDecayPvE=true
+
+    AutoSavePeriodMinutes=15
+    AdminLogging=false
+    ListenServerTetherDistanceMultiplier=1
+
+    alwaysNotifyPlayerJoined=false
+    alwaysNotifyPlayerLeft=false
+    globalVoiceChat=false
+    proximityChat=false
+    serverForceNoHud=false
+    EnablePVPGamma=false
+    DisablePvEGamma=false
+
+    noTributeDownloads=false
+    PreventDownloadSurvivors=false
+    PreventDownloadItems=false
+    PreventDownloadDinos=false
+    PreventUploadSurvivors=false
+    PreventUploadItems=false
+    PreventUploadDinos=false
+    CrossARKAllowForeignDinoDownloads=True
 
     [/Script/ShooterGame.ShooterGameUserSettings]
     MasterAudioVolume=1.000000

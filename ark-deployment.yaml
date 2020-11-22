@@ -22,12 +22,13 @@ spec:
         - name: SESSIONNAME
           value: KubicArkTestServer
         - name: SERVERMAP
-          value: Ragnarok
+          value: Valguero_P # TheIsland, TheCenter, ScorchedEarth_P, Ragnarok, Aberration_P, Extinction, Genesis, Valguero_P, CrystalIsles
         - name: SERVERPASSWORD
           value: pass
         - name: ADMINPASSWORD
           value: adminpass
         ports:
+            # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports.
           - containerPort: 27015
             protocol: UDP
             name: ark-steams
@@ -84,6 +85,10 @@ spec:
               name: ark-global-user-settings-cm
           - configMap:
               name: ark-override-user-settings-cm
+          - configMap:
+              name: ark-global-game-ini-cm
+          - configMap:
+              name: ark-override-game-ini-cm
           - configMap:
               name: ark-manager-cm
           - configMap:

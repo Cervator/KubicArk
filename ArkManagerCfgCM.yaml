@@ -4,46 +4,16 @@ metadata:
   name: ark-manager-cm
 data:
   arkmanager.cfg: |-
-    # --- USER CONFIG --- #
-    # ARK server options - use ark_<optionname>=<value>
-    # comment out these values if you want to define them
-    # inside your GameUserSettings.ini file
-    # Port config
-    ark_Port=${STEAMPORT}                                               # ARK server port (default 7778)
-    ark_QueryPort=${SERVERPORT}                                         # ARK query port (default 27016)
-    ark_RCONEnabled="True"                                              # Enable RCON Protocol
-    ark_RCONPort=${RCONPORT}                                            # RCON Port
-    #serverMapModId="469987622"                                     # Uncomment this to specify the Map Mod Id (<fileid> in http://steamcommunity.com/sharedfiles/filedetails/?id=<fileid>)
-    serverMap=${SERVERMAP}                                          # server map (default TheIsland)
-    #ark_TotalConversionMod="496735411"                             # Uncomment this to specify a total-conversion mod
-    ark_SessionName=${SESSIONNAME}                                  # if your session name needs special characters please use the .ini instead
-    ark_ServerPassword=${SERVERPASSWORD}                            # ARK server password, empty: no password required to login
-    ark_ServerAdminPassword=${ADMINPASSWORD}                        # ARK server admin password, KEEP IT SAFE!
-    ark_MaxPlayers=${MAX_PLAYERS}                                   # Number MAX of player
-    # ark_bRawSockets=""                                            # Uncomment if you want to use ark raw socket (instead of steam p2p) [Not recommended]
-    arkflag_log=""
-    ark_BanListURL="http://playark.com/banlist.txt"
-    arkflag_USEALLAVAILABLECORES=true
-    ark_AltSaveDirectoryName="Saved-"${SERVERMAP}
+    # First settings that are actually for the Ark Manager itself
 
-    # ----- Mods ----- #
-    #ark_GameModIds="487516323,487516324,487516325"                     # Commented Example on how to use Mods
-    #ark_GameModIds="558079412"                                          # https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=558079412
-    # Mod OS Selection
-    mod_branch=Windows
-    # Add mod-specific OS selection below:
-    #mod_branch_496735411=Windows
-    # ----------------#
+    # Change the location of config files to match what's provided externally (for instance by the Kubernetes setup from KubicArk)
+    arkGameUserSettingsIniFile=/ark/MergedGameUserSettings.ini
+    #arkGameIniFile=/ark/MergedGameIni.ini
 
-    # ARK server flags - use arkflag_<optionname>=true
-    #arkflag_OnlyAdminRejoinAsSpectator=true                            # Uncomment to only allow admins to rejoin as spectator
-    #arkflag_DisableDeathSpectator=true                                 # Uncomment to disable players from becoming spectators when they die
+    # config environment
+    arkwarnminutes="15"                                             # number of minutes to warn players when using update --warn
+    arkBackupPreUpdate="true"                                       # set this to true if you want to perform a backup before updating
 
-    # ARK server options - i.e. for -optname=val, use arkopt_optname=val
-    #arkopt_StructureDestructionTag=DestroySwampSnowStructures
-    #ark_AltSaveDirectoryName="SotF"                                    # Uncomment to specify a different save directory name
-
-    # Update warning messages
     # Modify as desired, putting the %d replacement operator where the number belongs
     msgWarnUpdateMinutes="This ARK server will shutdown for an update in %d minutes"
     msgWarnUpdateSeconds="This ARK server will shutdown for an update in %d seconds"
@@ -52,14 +22,35 @@ data:
     msgWarnShutdownMinutes="This ARK server will shutdown in %d minutes"
     msgWarnShutdownSeconds="This ARK server will shutdown in %d seconds"
 
-    # config environment
-    arkwarnminutes="15"                                                # number of minutes to warn players when using update --warn
-    arkBackupPreUpdate="true"                                          # set this to true if you want to perform a backup before updating
-
-    # Options to automatically remove old backups to keep backup size in check
-    # Each compressed backup is generally about 1-2MB in size.
-    #arkMaxBackupSizeMB="500"                                          # Set to automatically remove old backups when size exceeds this limit
+    # Options to automatically remove old backups to keep backup size in check - Each compressed backup is generally about 1-2MB in size.
+    #arkMaxBackupSizeMB="500"                                       # Set to automatically remove old backups when size exceeds this limit
     arkMaxBackupSizeGB="2"
 
-    # Change the location of config files to match what's provided externally
-    arkGameUserSettingsIniFile=/ark/MergedGameUserSettings.ini
+    # --------------------------------------------------------------------------------------------------------------------------------------- #
+    # Game settings of various kinds and formats. Note that an arkflag may still list a true/false value *here* to determine active flag or not
+    # At least some of these can be replaced by comparable settings in the ini files, but any settings done here will have precedence
+
+    # If the option is part of the settings string (e.g. ?NonPermanentDiseases=true), then it is prefixed with ark_
+    # If the option is a dash option without an argument (e.g. -automanagedmods), then it is prefixed with arkflag_
+    # If the option is a dash option with an argument (e.g. -culture=en), then it is prefixed with arkopt_
+
+    serverMap=${SERVERMAP}                                          # server map (default TheIsland)
+    ark_SessionName=${SESSIONNAME}                                  # if your session name needs special characters please use the .ini instead
+    ark_Port=${STEAMPORT}                                           # ARK server port (default 7778)
+    ark_QueryPort=${SERVERPORT}                                     # ARK query port (default 27016)
+    ark_RCONEnabled="True"                                          # Enable RCON Protocol
+    ark_RCONPort=${RCONPORT}                                        # RCON Port
+
+    ark_ServerPassword=${SERVERPASSWORD}                            # ARK server password, empty: no password required to login
+    ark_ServerAdminPassword=${ADMINPASSWORD}                        # ARK server admin password, KEEP IT SAFE!
+    ark_MaxPlayers=${MAX_PLAYERS}                                   # Number MAX of player
+    ark_BanListURL="http://playark.com/banlist.txt"
+
+    arkflag_log=""
+    arkflag_USEALLAVAILABLECORES=true
+    ark_AltSaveDirectoryName="Saved-"${SERVERMAP}
+    # TODO: Consider taking alt save dir out since every pod only ever holds one map ...
+
+    # Clustering
+    #arkopt_clusterid=KubicArkCluster
+    #arkopt_ClusterDirOverride=/ark-shared/cluster

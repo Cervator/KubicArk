@@ -5,15 +5,6 @@ metadata:
 data:
   # Note: Even with this called an "override" config file any settings from the Ark Manager will take precedence
   OverrideGameUserSettings.ini: |-
-    OverrideOfficialDifficulty=5.000000
-    DifficultyOffset=1
-
-    [SessionSettings]
-    SessionName=ThisNameIsIgnored
-
-    [/Script/Engine.GameSession]
-    MaxPlayers=42
-
     [MessageOfTheDay]
     Duration=20
     Message=Now with 9000% more YAML!

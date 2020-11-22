@@ -8,18 +8,7 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 ## Instructions
 
-Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-all.sh` script to do it all in one go.
-
-* `kubectl apply -f ark-pvc.yaml`
-* `kubectl apply -f ark-pvc-shared.yaml`
-* `kubectl apply -f ArkManagerCfgCM.yaml`
-* `kubectl apply -f GlobalGameUserSettingsCM.yaml`
-* `kubectl apply -f OverrideGameUserSettingsCM.yaml`
-* `kubectl apply -f ArkPlayerListsCM.yaml`
-* `kubectl apply -f ark-deployment.yaml`
-* `kubectl apply -f ark-service.yaml`
-
-There is also a `delete-all.sh` included for convenience.
+Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-all.sh` script to do it all in one go and the `delete-all.sh` to reset everything.
 
 ## ARK Configuration files
 
@@ -31,7 +20,7 @@ To easily configure a given ARK server via Git without touching the server sever
 * `PlayersJoinNoCheck.txt` & `PlayersExclusiveJoinList.txt` - for allowing player access in some fashion - exact distinction should be clarified but hasn't been tested here yet
 * `arkmanager.cfg` - SPECIAL - this config file is actually for the Ark Manager utility, which in turn will apply a few settings to the game server with complete disregard for the game server config files (will override entries in `GameUserSettings.ini` for instance)
 
-To make it easier to distinguish between default settings and map-specific settings in a game cluster setup there are _two_ separate CMs for files like `GameUserSettings.ini` - the base set, intended to be used globally (to not have to repeat yourself), and an override set meant to be used per-map for anything uniquely defined just there.
+There are _two_ separate CMs for files like `GameUserSettings.ini` - the base set, intended to be used globally within a cluster (to not have to repeat yourself), and an override set meant to be used per-map for anything uniquely defined just there.
 
 **Note:** The ARK server or maybe the ark-manager utility doesn't like incomplete config files and will restore a default if something is missing - even client-side entries that make no sense in the context of a headless server. If a config file like `GameUserSettings.ini` seems to _reset_ that might be the problem. Try to start fresh with a default config file then apply your customizations.
 
@@ -55,7 +44,7 @@ During Ark Manager and game server startup the file appears to be somewhat rewri
 
 ## Connecting to your server
 
-Find your IP via `kubectl get svc arkgame-service` and add both IP + port to the Steam server panel then find games at that address and mark your server as a favorite. It should now show up in-game. It takes a little while for the server to come online, you can watch it with `kubectl logs arkgame-7d74dd65bc-gqckv` (adjust accordingly to your pod name, seen with `kubectl get pods`) or by using `arkmanager status` on a remote shell.
+Find your IP via `kubectl get svc arkgame-service`, add `[IP]:[port]` to the Steam server panel then find games at that address and mark your server as a favorite. It should now show up in-game. It takes a little while for the server to come online, you can watch it with `kubectl logs arkgame-7d74dd65bc-gqckv` (adjust accordingly to your pod name, seen with `kubectl get pods`) or by using `arkmanager status` on a remote shell.
 
 ## License
 
