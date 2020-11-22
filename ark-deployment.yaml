@@ -24,15 +24,11 @@ spec:
         - name: SERVERMAP
           value: Valguero_P # TheIsland, TheCenter, ScorchedEarth_P, Ragnarok, Aberration_P, Extinction, Genesis, Valguero_P, CrystalIsles
         - name: SERVERPASSWORD
-          value: pass
-        - name: ADMINPASSWORD
-          value: adminpass
-        - name: SECRET_PASS1
           valueFrom:
             secretKeyRef:
               name: ark-server-secrets
               key: serverPass
-        - name: SECRET_PASS2
+        - name: ADMINPASSWORD
           valueFrom:
             secretKeyRef:
               name: ark-server-secrets
@@ -69,21 +65,15 @@ spec:
           args:
             - cd /ark-config;
               ls -la;
-              rm -f /ark/tmp0 /ark/tmp1 /ark/tmp10 /ark/tmp11 /ark/MergedGameUserSettings.ini /ark/MergedGame.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini /ark/server/ShooterGame/Saved/Config/LinuxServer/Game.ini /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
-              cat OverrideGameUserSettings.ini > /ark/tmp0;
-              echo "" >> /ark/tmp0;
-              cat GlobalGameUserSettings.ini >> /ark/tmp0;
-              echo "" >> /ark/tmp0;
-              awk -F "=" '!a[$1]++' /ark/tmp0 > /ark/tmp1 && mv /ark/tmp1 /ark/MergedGameUserSettings.ini && rm /ark/tmp0;
-              cat OverrideGame.ini > /ark/tmp10;
-              echo "" >> /ark/tmp10;
-              cat GlobalGame.ini >> /ark/tmp10;
-              echo "" >> /ark/tmp10;
-              echo "***MergedGame.ini before streamlining***";
-              cat /ark/tmp10;
-              awk -F "=" '!a[$1]++' /ark/tmp10 > /ark/tmp11 && mv /ark/tmp11 /ark/MergedGame.ini && rm /ark/tmp10;
-              echo "***MergedGame.ini after streamlining***";
-              cat /ark/MergedGame.ini;
+              rm -f /ark/MergedGameUserSettings.ini /ark/MergedGame.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini /ark/server/ShooterGame/Saved/Config/LinuxServer/Game.ini /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
+              cat GlobalGameUserSettings.ini >> /ark/MergedGameUserSettings.ini;
+              echo "" >> /ark/MergedGameUserSettings.ini;
+              cat OverrideGameUserSettings.ini > /ark/MergedGameUserSettings.ini;
+              echo "" >> /ark/MergedGameUserSettings.ini;
+              cat GlobalGame.ini >> /ark/MergedGame.ini;
+              echo "" >> /ark/MergedGame.ini;
+              cat OverrideGame.ini > /ark/MergedGame.ini;
+              echo "" >> /ark/MergedGame.ini;
               mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
               cd /ark;
               ln -s /ark-config/arkmanager.cfg arkmanager.cfg ;
@@ -91,6 +81,7 @@ spec:
               mkdir -p /ark/server/ShooterGame/Binaries/Linux/;
               ln -s /ark-config/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt;
               ln -s /ark-config/PlayersExclusiveJoinList.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
+              echo "Preparing cluster dir"
               mkdir -p /ark-shared/cluster;
               ls /ark-shared/cluster;
       volumes:
