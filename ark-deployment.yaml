@@ -27,8 +27,18 @@ spec:
           value: pass
         - name: ADMINPASSWORD
           value: adminpass
+        - name: SECRET_PASS1
+          valueFrom:
+            secretKeyRef:
+              name: ark-server-secrets
+              key: serverPass
+        - name: SECRET_PASS2
+          valueFrom:
+            secretKeyRef:
+              name: ark-server-secrets
+              key: adminPass
         ports:
-            # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports.
+            # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports - shouldn't matter if just changing via Ingress
           - containerPort: 27015
             protocol: UDP
             name: ark-steams
@@ -63,11 +73,17 @@ spec:
               cat OverrideGameUserSettings.ini > /ark/tmp0;
               echo "" >> /ark/tmp0;
               cat GlobalGameUserSettings.ini >> /ark/tmp0;
+              echo "" >> /ark/tmp0;
               awk -F "=" '!a[$1]++' /ark/tmp0 > /ark/tmp1 && mv /ark/tmp1 /ark/MergedGameUserSettings.ini && rm /ark/tmp0;
               cat OverrideGame.ini > /ark/tmp10;
               echo "" >> /ark/tmp10;
               cat GlobalGame.ini >> /ark/tmp10;
+              echo "" >> /ark/tmp10;
+              echo "***MergedGame.ini before streamlining***";
+              cat /ark/tmp10;
               awk -F "=" '!a[$1]++' /ark/tmp10 > /ark/tmp11 && mv /ark/tmp11 /ark/MergedGame.ini && rm /ark/tmp10;
+              echo "***MergedGame.ini after streamlining***";
+              cat /ark/tmp10;
               mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
               cd /ark;
               ln -s /ark-config/arkmanager.cfg arkmanager.cfg ;
@@ -75,7 +91,8 @@ spec:
               mkdir -p /ark/server/ShooterGame/Binaries/Linux/;
               ln -s /ark-config/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt;
               ln -s /ark-config/PlayersExclusiveJoinList.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
-              mkdir -p /ark-shared/cluster
+              mkdir -p /ark-shared/cluster;
+              ls /ark-shared/cluster;
       volumes:
       - name: arkgame-persistent-storage
         persistentVolumeClaim:

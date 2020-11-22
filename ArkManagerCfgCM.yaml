@@ -48,7 +48,7 @@ data:
 
     arkflag_log=""
     arkflag_USEALLAVAILABLECORES=true
-    ark_AltSaveDirectoryName="Saved-"${SERVERMAP}
+    #ark_AltSaveDirectoryName="Saved-"${SERVERMAP}
     # TODO: Consider taking alt save dir out since every pod only ever holds one map ...
 
     # Clustering
