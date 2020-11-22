@@ -61,6 +61,8 @@ spec:
             mountPath: /ark
           - name: arkgame-config-volume
             mountPath: /ark-config
+          - name: arkgame-persistent-shared-storage
+            mountPath: /ark-shared
           command: ['sh', '-c']
           args:
             - cd /ark-config;
@@ -68,11 +70,11 @@ spec:
               rm -f /ark/MergedGameUserSettings.ini /ark/MergedGame.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini /ark/server/ShooterGame/Saved/Config/LinuxServer/Game.ini /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
               cat GlobalGameUserSettings.ini >> /ark/MergedGameUserSettings.ini;
               echo "" >> /ark/MergedGameUserSettings.ini;
-              cat OverrideGameUserSettings.ini > /ark/MergedGameUserSettings.ini;
+              cat OverrideGameUserSettings.ini >> /ark/MergedGameUserSettings.ini;
               echo "" >> /ark/MergedGameUserSettings.ini;
               cat GlobalGame.ini >> /ark/MergedGame.ini;
               echo "" >> /ark/MergedGame.ini;
-              cat OverrideGame.ini > /ark/MergedGame.ini;
+              cat OverrideGame.ini >> /ark/MergedGame.ini;
               echo "" >> /ark/MergedGame.ini;
               mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
               cd /ark;
