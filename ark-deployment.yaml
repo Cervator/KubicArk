@@ -81,7 +81,7 @@ spec:
               mkdir -p /ark/server/ShooterGame/Binaries/Linux/;
               ln -s /ark-config/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt;
               ln -s /ark-config/PlayersExclusiveJoinList.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
-              echo "Preparing cluster dir"
+              echo "Preparing cluster dir";
               mkdir -p /ark-shared/cluster;
               ls /ark-shared/cluster;
       volumes:
