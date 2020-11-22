@@ -8,7 +8,7 @@ data:
 
     # Change the location of config files to match what's provided externally (for instance by the Kubernetes setup from KubicArk)
     arkGameUserSettingsIniFile=/ark/MergedGameUserSettings.ini
-    #arkGameIniFile=/ark/MergedGameIni.ini
+    arkGameIniFile=/ark/MergedGame.ini
 
     # config environment
     arkwarnminutes="15"                                             # number of minutes to warn players when using update --warn
@@ -52,5 +52,5 @@ data:
     # TODO: Consider taking alt save dir out since every pod only ever holds one map ...
 
     # Clustering
-    #arkopt_clusterid=KubicArkCluster
-    #arkopt_ClusterDirOverride=/ark-shared/cluster
+    arkopt_clusterid=KubicArkCluster
+    arkopt_ClusterDirOverride=/ark-shared/cluster

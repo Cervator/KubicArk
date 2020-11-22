@@ -59,11 +59,15 @@ spec:
           args:
             - cd /ark-config;
               ls -la;
-              rm -f /ark/tmp0 /ark/tmp1 /ark/MergedGameUserSettings.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
+              rm -f /ark/tmp0 /ark/tmp1 /ark/tmp10 /ark/tmp11 /ark/MergedGameUserSettings.ini /ark/MergedGame.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini /ark/server/ShooterGame/Saved/Config/LinuxServer/Game.ini /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
               cat OverrideGameUserSettings.ini > /ark/tmp0;
               echo "" >> /ark/tmp0;
               cat GlobalGameUserSettings.ini >> /ark/tmp0;
               awk -F "=" '!a[$1]++' /ark/tmp0 > /ark/tmp1 && mv /ark/tmp1 /ark/MergedGameUserSettings.ini && rm /ark/tmp0;
+              cat OverrideGame.ini > /ark/tmp10;
+              echo "" >> /ark/tmp10;
+              cat GlobalGame.ini >> /ark/tmp10;
+              awk -F "=" '!a[$1]++' /ark/tmp10 > /ark/tmp11 && mv /ark/tmp11 /ark/MergedGame.ini && rm /ark/tmp10;
               mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
               cd /ark;
               ln -s /ark-config/arkmanager.cfg arkmanager.cfg ;
@@ -71,6 +75,7 @@ spec:
               mkdir -p /ark/server/ShooterGame/Binaries/Linux/;
               ln -s /ark-config/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt;
               ln -s /ark-config/PlayersExclusiveJoinList.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
+              mkdir -p /ark-shared/cluster
       volumes:
       - name: arkgame-persistent-storage
         persistentVolumeClaim:
