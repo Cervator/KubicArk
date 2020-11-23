@@ -83,9 +83,7 @@ spec:
               mkdir -p /ark/server/ShooterGame/Binaries/Linux/;
               ln -s /ark-config/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt;
               ln -s /ark-config/PlayersExclusiveJoinList.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
-              echo "Preparing cluster dir";
-              mkdir -p /ark-shared/cluster;
-              ls /ark-shared/cluster;
+              chmod 777 -R /ark-shared/
       volumes:
       - name: arkgame-persistent-storage
         persistentVolumeClaim:

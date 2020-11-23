@@ -10,6 +10,8 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-all.sh` script to do it all in one go and the `delete-all.sh` to reset everything.
 
+*Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git!
+
 ## ARK Configuration files
 
 To easily configure a given ARK server via Git without touching the server several server config files are included via Kubernetes Config Maps (CMs)

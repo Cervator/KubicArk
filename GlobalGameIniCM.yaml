@@ -4,6 +4,7 @@ metadata:
   name: ark-global-game-ini-cm
 data:
   GlobalGame.ini: |-
+    [/script/shootergame.shootergamemode]
     KillXPMultiplier=8
     HarvestXPMultiplier=8
     CraftXPMultiplier=8

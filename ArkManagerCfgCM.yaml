@@ -29,6 +29,7 @@ data:
     # --------------------------------------------------------------------------------------------------------------------------------------- #
     # Game settings of various kinds and formats. Note that an arkflag may still list a true/false value *here* to determine active flag or not
     # At least some of these can be replaced by comparable settings in the ini files, but any settings done here will have precedence
+    # Note that some env vars are set in the Docker image and not overridden via Kubernetes - we can simply remap ports there instead!
 
     # If the option is part of the settings string (e.g. ?NonPermanentDiseases=true), then it is prefixed with ark_
     # If the option is a dash option without an argument (e.g. -automanagedmods), then it is prefixed with arkflag_
@@ -48,9 +49,7 @@ data:
 
     arkflag_log=""
     arkflag_USEALLAVAILABLECORES=true
-    #ark_AltSaveDirectoryName="Saved-"${SERVERMAP}
-    # TODO: Consider taking alt save dir out since every pod only ever holds one map ...
 
     # Clustering
     arkopt_clusterid=KubicArkCluster
-    arkopt_ClusterDirOverride=/ark-shared/cluster
+    arkopt_ClusterDirOverride=/ark-shared
