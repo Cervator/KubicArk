@@ -16,15 +16,15 @@ Apply the resources to a target Kubernetes cluster with some attention paid to o
 
 To easily configure a given ARK server via Git without touching the server several server config files are included via Kubernetes Config Maps (CMs)
 
-* `GameUserSettings.ini` - contains most the typical gameplay related settings.
-* `Game.ini` - TODO
+* `GameUserSettings.ini` - contains most the general gameplay related settings, such as pvp settings, some cluster stuff, basic player rules
+* `Game.ini` - contains deeper gameplay settings like auto-enabled engrams and bunches of ratios + multipliers.  But really ... the inis overlap a fair bit. Can be confusing.
 * `AllowedCheaterSteamIDs.txt` - for Steam profile ids that will automatically have access to console cheats
 * `PlayersJoinNoCheck.txt` & `PlayersExclusiveJoinList.txt` - for allowing player access in some fashion - exact distinction should be clarified but hasn't been tested here yet
 * `arkmanager.cfg` - SPECIAL - this config file is actually for the Ark Manager utility, which in turn will apply a few settings to the game server with complete disregard for the game server config files (will override entries in `GameUserSettings.ini` for instance)
 
-There are _two_ separate CMs for files like `GameUserSettings.ini` - the base set, intended to be used globally within a cluster (to not have to repeat yourself), and an override set meant to be used per-map for anything uniquely defined just there.
+There are _two_ separate CMs for files like `GameUserSettings.ini` - the base set, intended to be used globally within a cluster (to not have to repeat yourself), and an override set meant to be used per-map for anything uniquely defined just there (may be little to nothing in some cases)
 
-**Note:** The ARK server or maybe the ark-manager utility doesn't like incomplete config files and will restore a default if something is missing - even client-side entries that make no sense in the context of a headless server. If a config file like `GameUserSettings.ini` seems to _reset_ that might be the problem. Try to start fresh with a default config file then apply your customizations.
+**Note:** The ARK server or maybe the ark-manager utility doesn't like incomplete config files and will restore a default if some things are missing - maybe even client-side entries that make no sense in the context of a headless server. If a config file like `GameUserSettings.ini` seems to _reset_ that might be the problem. Try to start fresh with a default config file then apply your customizations. Likewise `Game.ini` may really want its `[/script/shootergame.shootergamemode]` header - or it could be weird file permission issues still.
 
 ### Making changes
 
