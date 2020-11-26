@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ark-override-game-ini-cm
+  name: ark-valg-override-game-ini-cm
 data:
   OverrideGame.ini: |-
     EngramEntryAutoUnlocks=(EngramClassName="EngramEntry_TekCatwalk_C",EngramHidden=False,EngramPointsCost=0,LevelToAutoUnlock=50,RemoveEngramPreReq=True)

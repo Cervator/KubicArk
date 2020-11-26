@@ -5,18 +5,34 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
+  # Valguero ports
   - port: 27015
     targetPort: 27015
     protocol: UDP
-    name: ark-valg-steam
+    name: ark-valg-steam # This supports the Steam server browser
   - port: 7777
     targetPort: 7777
     protocol: UDP
-    name: ark-valg-client
+    name: ark-valg-client # This is for regular direct connections?
   - port: 7778
     targetPort: 7778
     protocol: UDP
-    name: ark-valg-raw
+    name: ark-valg-raw # This should always be client port + 1
+
+  # Genesis part 1 ports
+  - port: 27014
+    targetPort: 27015
+    protocol: UDP
+    name: ark-gen1-steam
+  - port: 7775
+    targetPort: 7777
+    protocol: UDP
+    name: ark-gen1-client
+  - port: 7776
+    targetPort: 7778
+    protocol: UDP
+    name: ark-gen1-raw
+
   selector:
     # This trick lets us map several deployments to a single service, just varying the ports
     lbtype: external
