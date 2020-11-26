@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arkgame
+  name: ark-valguero
   labels:
-    app: arkgame
+    app: ark-valguero
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arkgame
+      lbtype: external
   template:
     metadata:
       labels:
-        app: arkgame
+        lbtype: external
+        app: ark-valguero
     spec:
       containers:
       - image: nightdragon1/ark-docker

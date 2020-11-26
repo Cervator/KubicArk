@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: arkgame-service
-  labels:
-    app: arkgame-service
+  #name: arkgame-service
+  name: external-lb
+  #labels:
+    #app: arkgame-service
 spec:
   type: LoadBalancer
   ports:
@@ -20,4 +21,5 @@ spec:
     protocol: UDP
     name: ark-gamerawudpport
   selector:
-    app: arkgame
+    #app: arkgame
+    lbtype: external

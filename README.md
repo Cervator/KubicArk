@@ -51,3 +51,9 @@ Find your IP via `kubectl get svc arkgame-service`, add `[IP]:[port]` to the Ste
 ## License
 
 This project is licensed under Apache v2.0 with contributions and forks welcome. The associated tools and ARK itself of course are governed by their own project details.
+
+## Thanks to
+
+* Inspiration drawn from https://guido.appenzeller.net/2018/09/12/how-to-run-an-ark-survival-evolved-private-server-on-google-kubernetes-engine-gke/
+* The awesome ARK server tools project - https://github.com/arkmanager/ark-server-tools
+* Docker image from https://github.com/NightDragon1/Ark-docker as well as past maintainers - lots of forks but this one seemed tidy and well-organized!
