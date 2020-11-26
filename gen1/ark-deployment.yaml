@@ -26,7 +26,7 @@ spec:
           value: "7775" # Actually unsure if this should be the default 7777 or 7778 (Docker image defaults to 7778, raw UDP). Must have quotes.
         - name: SERVERMAP
           value: Genesis    # TheIsland, TheCenter, ScorchedEarth_P, Ragnarok, Aberration_P, Extinction, Valguero_P, Genesis, CrystalIsles
-              # Short names:  isle       cent       scorc            rag       ab            ext         valg        gen1     cryst
+              # Short names:  islan      cent       scorc            rag       ab            ext         valg        gen1     cryst
         - name: SERVERPASSWORD
           valueFrom:
             secretKeyRef:
