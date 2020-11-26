@@ -8,13 +8,13 @@ then
   kubectl delete -f $1/OverrideGameIniCM.yaml
   # TODO: Consider using a stateful set just to get a cleaner pod name? Only ever 0 or 1 instances ...
 else
-  echo "Didn't get exactly one arg, so will delete global things instead. Got $# ! $*"
+  echo "Didn't get exactly one arg, so will delete global things instead. Got: $*"
   echo "Valid server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst"
-  kubectl apply -f ark-pvc-shared.yaml
-  kubectl apply -f ArkManagerCfgCM.yaml
-  kubectl apply -f GlobalGameUserSettingsCM.yaml
-  kubectl apply -f GlobalGameIniCM.yaml
-  kubectl apply -f ArkPlayerListsCM.yaml
-  kubectl apply -f ark-server-secrets.yaml
-  kubectl apply -f ark-service.yaml
+  kubectl delete -f ark-pvc-shared.yaml
+  kubectl delete -f ArkManagerCfgCM.yaml
+  kubectl delete -f GlobalGameUserSettingsCM.yaml
+  kubectl delete -f GlobalGameIniCM.yaml
+  kubectl delete -f ArkPlayerListsCM.yaml
+  kubectl delete -f ark-server-secrets.yaml
+  kubectl delete -f ark-service.yaml
 fi
