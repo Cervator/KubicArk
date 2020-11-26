@@ -21,7 +21,7 @@ spec:
         env:
           # Server Parameters
         - name: SESSIONNAME
-          value: KubicArkTestServer
+          value: KubicArk - Valguero
         #- name: STEAMPORT # Bad name? Is actually the general connect port (27015 is for Steam, yet named SERVERPORT in the Docker image - fix?)
         #  value: 7777 # Actually unsure if this should be the default 7777 or 7778 (Docker image defaults to 7778, raw UDP)
         - name: SERVERMAP
