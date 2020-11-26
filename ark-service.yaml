@@ -25,11 +25,11 @@ spec:
     protocol: UDP
     name: ark-gen1-steam
   - port: 7775
-    targetPort: 7777
+    targetPort: 7775
     protocol: UDP
     name: ark-gen1-client
   - port: 7776
-    targetPort: 7778
+    targetPort: 7776
     protocol: UDP
     name: ark-gen1-raw
 
