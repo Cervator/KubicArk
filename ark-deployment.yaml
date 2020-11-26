@@ -35,16 +35,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-            # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports - shouldn't matter if just changing via Ingress
+            # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports - shouldn't matter if just changing via Service
           - containerPort: 27015
             protocol: UDP
-            name: ark-steams
+            name: ark-valguero-steams
           - containerPort: 7777
             protocol: UDP
-            name: ark-gameclient
+            name: ark-valguero-gameclient
           - containerPort: 7778
             protocol: UDP
-            name: ark-gamerawudp
+            name: ark-valguero-gamerawudp
         volumeMounts:
         - name: arkgame-persistent-storage
           mountPath: /ark

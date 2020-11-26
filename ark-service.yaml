@@ -1,25 +1,22 @@
 apiVersion: v1
 kind: Service
 metadata:
-  #name: arkgame-service
-  name: external-lb
-  #labels:
-    #app: arkgame-service
+  name: ark-external-lb
 spec:
   type: LoadBalancer
   ports:
   - port: 27015
     targetPort: 27015
     protocol: UDP
-    name: ark-steam
+    name: ark-valguero-steam
   - port: 7777
     targetPort: 7777
     protocol: UDP
-    name: ark-gameclient
+    name: ark-valguero-gameclient
   - port: 7778
     targetPort: 7778
     protocol: UDP
-    name: ark-gamerawudpport
+    name: ark-valguero-gamerawudpport
   selector:
-    #app: arkgame
+    # This trick lets us map several deployments to a single service, just varying the ports
     lbtype: external
