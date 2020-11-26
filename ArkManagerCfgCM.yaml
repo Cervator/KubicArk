@@ -49,6 +49,7 @@ data:
 
     arkflag_log=""
     arkflag_USEALLAVAILABLECORES=true
+    arkflag_crossplay=true
 
     # Clustering
     arkopt_clusterid=KubicArkCluster
