@@ -24,6 +24,7 @@ spec:
           value: KubicArkTestServer
         - name: SERVERMAP
           value: Valguero_P # TheIsland, TheCenter, ScorchedEarth_P, Ragnarok, Aberration_P, Extinction, Genesis, Valguero_P, CrystalIsles
+              # Short names:  isle       cent       scorc            rag       ab            ext         gen1     valg        cryst
         - name: SERVERPASSWORD
           valueFrom:
             secretKeyRef:
@@ -38,13 +39,13 @@ spec:
             # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports - shouldn't matter if just changing via Service
           - containerPort: 27015
             protocol: UDP
-            name: ark-valguero-steams
+            name: ark-valg-steam
           - containerPort: 7777
             protocol: UDP
-            name: ark-valguero-gameclient
+            name: ark-valg-client
           - containerPort: 7778
             protocol: UDP
-            name: ark-valguero-gamerawudp
+            name: ark-valg-raw
         volumeMounts:
         - name: arkgame-persistent-storage
           mountPath: /ark

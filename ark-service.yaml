@@ -8,15 +8,15 @@ spec:
   - port: 27015
     targetPort: 27015
     protocol: UDP
-    name: ark-valguero-steam
+    name: ark-valg-steam
   - port: 7777
     targetPort: 7777
     protocol: UDP
-    name: ark-valguero-gameclient
+    name: ark-valg-client
   - port: 7778
     targetPort: 7778
     protocol: UDP
-    name: ark-valguero-gamerawudpport
+    name: ark-valg-raw
   selector:
     # This trick lets us map several deployments to a single service, just varying the ports
     lbtype: external
