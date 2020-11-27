@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ark-valguero
+  name: arkvalguero
   labels:
-    app: ark-valguero
+    app: arkvalguero
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ark-valguero
+      app: arkvalguero
   template:
     metadata:
       labels:
-        app: ark-valguero
+        app: arkvalguero
     spec:
       containers:
       - image: nightdragon1/ark-docker

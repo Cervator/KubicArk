@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ark-genesis
+  name: arkgenesis
   labels:
-    app: ark-genesis
+    app: arkgenesis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ark-genesis
+      app: arkgenesis
   template:
     metadata:
       labels:
-        app: ark-genesis
+        app: arkgenesis
     spec:
       containers:
       - image: nightdragon1/ark-docker

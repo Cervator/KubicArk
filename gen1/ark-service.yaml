@@ -20,4 +20,4 @@ spec:
     protocol: UDP
     name: ark-gen1-raw # This should always be client port + 1
   selector:
-    app: ark-genesis
+    app: arkgenesis

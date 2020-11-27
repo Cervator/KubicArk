@@ -20,4 +20,4 @@ spec:
     protocol: UDP
     name: ark-valg-raw # This should always be client port + 1
   selector:
-    app: ark-valguero
+    app: arkvalguero
