@@ -21,7 +21,7 @@ spec:
 
   # Genesis part 1 ports
   - port: 27014
-    targetPort: 27015
+    targetPort: 27014
     protocol: UDP
     name: ark-gen1-steam
   - port: 7775
