@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ark-external-lb
+  name: ark-valg-service
+  labels:
+    app: ark-valg-service
 spec:
   type: LoadBalancer
   ports:
-  # Valguero ports
   - port: 27015
     targetPort: 27015
     protocol: UDP
@@ -18,21 +19,5 @@ spec:
     targetPort: 7778
     protocol: UDP
     name: ark-valg-raw # This should always be client port + 1
-
-  # Genesis part 1 ports
-  - port: 27014
-    targetPort: 27014
-    protocol: UDP
-    name: ark-gen1-steam
-  - port: 7775
-    targetPort: 7775
-    protocol: UDP
-    name: ark-gen1-client
-  - port: 7776
-    targetPort: 7776
-    protocol: UDP
-    name: ark-gen1-raw
-
   selector:
-    # This trick lets us map several deployments to a single service, just varying the ports
-    lbtype: external
+    app: ark-valguero

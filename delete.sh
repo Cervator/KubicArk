@@ -6,6 +6,7 @@ then
   kubectl delete -f $1/ark-pvc.yaml
   kubectl delete -f $1/OverrideGameUserSettingsCM.yaml
   kubectl delete -f $1/OverrideGameIniCM.yaml
+  kubectl delete -f $1/ark-service.yaml
   # TODO: Consider using a stateful set just to get a cleaner pod name? Only ever 0 or 1 instances ...
 else
   echo "Didn't get exactly one arg, so will delete global things instead. Got: $*"
@@ -16,5 +17,4 @@ else
   kubectl delete -f GlobalGameIniCM.yaml
   kubectl delete -f ArkPlayerListsCM.yaml
   kubectl delete -f ark-server-secrets.yaml
-  kubectl delete -f ark-service.yaml
 fi

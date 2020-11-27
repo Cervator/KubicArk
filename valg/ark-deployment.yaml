@@ -8,11 +8,10 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      lbtype: external
+      app: ark-valguero
   template:
     metadata:
       labels:
-        lbtype: external
         app: ark-valguero
     spec:
       containers:

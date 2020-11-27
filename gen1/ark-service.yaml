@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-gen1-service
+  labels:
+    app: ark-gen1-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 27015
+    targetPort: 27015
+    protocol: UDP
+    name: ark-gen1-steam # This supports the Steam server browser
+  - port: 7777
+    targetPort: 7777
+    protocol: UDP
+    name: ark-gen1-client # This is for regular direct connections?
+  - port: 7778
+    targetPort: 7778
+    protocol: UDP
+    name: ark-gen1-raw # This should always be client port + 1
+  selector:
+    app: ark-genesis

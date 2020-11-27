@@ -8,11 +8,10 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      lbtype: external
+      app: ark-genesis
   template:
     metadata:
       labels:
-        lbtype: external
         app: ark-genesis
     spec:
       containers:
@@ -22,10 +21,10 @@ spec:
           # Server Parameters
         - name: SESSIONNAME
           value: KubicArk - Genesis
-        - name: STEAMPORT # Bad name? is actually the general connect port (27015 is for Steam, yet named SERVERPORT in the Docker image - fix?)
-          value: "7776" # Actually unsure if this should be the default 7777 or 7778 (Docker image defaults to 7778, raw UDP). Must have quotes.
-        - name: SERVERPORT
-          value: "27014"
+        #- name: STEAMPORT # Bad name? is actually the general connect port (27015 is for Steam, yet named SERVERPORT in the Docker image - fix?)
+        #  value: "7776" # Actually unsure if this should be the default 7777 or 7778 (Docker image defaults to 7778, raw UDP). Must have quotes.
+        #- name: SERVERPORT
+        #  value: "27014"
         - name: SERVERMAP
           value: Genesis    # TheIsland, TheCenter, ScorchedEarth_P, Ragnarok, Aberration_P, Extinction, Valguero_P, Genesis, CrystalIsles
               # Short names:  islan      cent       scorc            rag       ab            ext         valg        gen1     cryst
@@ -41,13 +40,13 @@ spec:
               key: adminPass
         ports:
             # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports - shouldn't matter if just changing via Service
-          - containerPort: 27014
+          - containerPort: 27015
             protocol: UDP
             name: ark-gen1-steam
-          - containerPort: 7775
+          - containerPort: 7777
             protocol: UDP
             name: ark-gen1-client
-          - containerPort: 7776
+          - containerPort: 7778
             protocol: UDP
             name: ark-gen1-raw
         volumeMounts:
