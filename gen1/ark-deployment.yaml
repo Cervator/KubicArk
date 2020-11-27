@@ -43,12 +43,21 @@ spec:
           - containerPort: 27015
             protocol: UDP
             name: ark-gen1-steam
+          - containerPort: 7776
+            protocol: UDP
+            name: ark-gen1-clien1
           - containerPort: 7777
             protocol: UDP
             name: ark-gen1-client
           - containerPort: 7778
             protocol: UDP
             name: ark-gen1-raw
+          - containerPort: 7779
+            protocol: UDP
+            name: ark-gen1-clien2
+          - containerPort: 32330
+            protocol: TCP
+            name: ark-gen1-rcon
         volumeMounts:
         - name: ark-gen1-persistent-storage
           mountPath: /ark

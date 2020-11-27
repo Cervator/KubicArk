@@ -11,6 +11,10 @@ spec:
     targetPort: 27015
     protocol: UDP
     name: ark-gen1-steam # This supports the Steam server browser
+  - port: 7776
+    targetPort: 7776
+    protocol: UDP
+    name: ark-gen1-clien1 # This is for regular direct connections?
   - port: 7777
     targetPort: 7777
     protocol: UDP
@@ -19,5 +23,13 @@ spec:
     targetPort: 7778
     protocol: UDP
     name: ark-gen1-raw # This should always be client port + 1
+  - port: 7779
+    targetPort: 7779
+    protocol: UDP
+    name: ark-gen1-clien2 # This is for regular direct connections?
+  - port: 32330
+    targetPort: 32330
+    protocol: TCP
+    name: ark-gen1-rcon
   selector:
     app: arkgenesis
