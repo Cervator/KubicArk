@@ -21,8 +21,12 @@ spec:
           # Server Parameters
         - name: SESSIONNAME
           value: KubicArk - Valguero
-        #- name: STEAMPORT # Bad name? Is actually the general connect port (27015 is for Steam, yet named SERVERPORT in the Docker image - fix?)
-        #  value: "7777" # Actually unsure if this should be the default 7777 or 7778 (Docker image defaults to 7778, raw UDP). Must have quotes
+        - name: STEAMPORT # Bad name? is actually the general connect port (27015 is for Steam, yet named SERVERPORT in the Docker image - fix?)
+          value: "31011" # Actually unsure if this should be the default 7777 or 7778 (Docker image defaults to 7778, raw UDP). Must have quotes!
+        - name: SERVERPORT # This is really the Steam query port
+          value: "31013"
+        - name: RCONPORT
+          value: "31014"
         - name: SERVERMAP
           value: Valguero_P # TheIsland, TheCenter, ScorchedEarth_P, Ragnarok, Aberration_P, Extinction, Valguero_P, Genesis, CrystalIsles
               # Short names:  islan      cent       scorc            rag       ab            ext         valg        gen1     cryst
@@ -38,22 +42,16 @@ spec:
               key: adminPass
         ports:
             # Note: Query Port cannot be between 27020 and 27050 due to Steam using those ports - shouldn't matter if just changing via Service
-          - containerPort: 27015
-            protocol: UDP
-            name: ark-valg-steam
-          - containerPort: 7776
-            protocol: UDP
-            name: ark-valg-clien1
-          - containerPort: 7777
+          - containerPort: 31011
             protocol: UDP
             name: ark-valg-client
-          - containerPort: 7778
+          - containerPort: 31012
             protocol: UDP
             name: ark-valg-raw
-          - containerPort: 7779
+          - containerPort: 31013
             protocol: UDP
-            name: ark-valg-clien2
-          - containerPort: 32330
+            name: ark-valg-steam
+          - containerPort: 31014
             protocol: TCP
             name: ark-valg-rcon
         volumeMounts:

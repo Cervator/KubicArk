@@ -5,31 +5,27 @@ metadata:
   labels:
     app: ark-valg-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-  - port: 27015
-    targetPort: 27015
+  - port: 29011 # Internal service entrypoint inside the cluster
+    targetPort: 31011 # What to hit on the target container
+    nodePort: 31011 # External service entrypoint to get *into* the cluster along with a node IP
+    protocol: UDP
+    name: ark-valg-client # This is the regular client connect port
+  - port: 29012
+    targetPort: 31012
+    nodePort: 31012
+    protocol: UDP
+    name: ark-valg-raw # This is the "raw" client connect port whatever that means
+  - port: 29013
+    targetPort: 31013
+    nodePort: 31013
     protocol: UDP
     name: ark-valg-steam # This supports the Steam server browser
-  - port: 7776
-    targetPort: 7776
-    protocol: UDP
-    name: ark-valg-clien1 # This is for regular direct connections?
-  - port: 7777
-    targetPort: 7777
-    protocol: UDP
-    name: ark-valg-client # This is for regular direct connections?
-  - port: 7778
-    targetPort: 7778
-    protocol: UDP
-    name: ark-valg-raw # This should always be client port + 1
-  - port: 7779
-    targetPort: 7779
-    protocol: UDP
-    name: ark-valg-clien2 # This is for regular direct connections?
-  - port: 32330
-    targetPort: 32330
+  - port: 29014
+    targetPort: 31014
+    nodePort: 31014
     protocol: TCP
-    name: ark-valg-rcon
+    name: ark-valg-rcon # For remote admin
   selector:
     app: arkvalguero
