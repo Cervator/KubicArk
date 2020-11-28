@@ -22,9 +22,9 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - Genesis
         - name: STEAMPORT # Bad name? is actually the general connect port (27015 is for Steam, yet named SERVERPORT in the Docker image - fix?)
-          value: "31011" # Actually unsure if this should be the default 7777 or 7778 (Docker image defaults to 7778, raw UDP). Must have quotes!
+          value: "31012" # Actually unsure if this should be the default 7777 or 7778 (that one, opens a -1 port too) - Docker image defaults to 7778, raw UDP.
         - name: SERVERPORT # This is really the Steam query port
-          value: "31013"
+          value: "31013"  # Must be in quotes! Since it is meant as a value to put into an environment variable
         - name: RCONPORT
           value: "31014"
         - name: SERVERMAP
