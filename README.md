@@ -8,7 +8,16 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 ## Instructions
 
-Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-all.sh` script to do it all in one go and the `delete-all.sh` to reset everything.
+Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-server.sh` and `delete.sh` scripts
+
+* `apply-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
+* `apply.server.sh valg` would likewise create Valguero
+* `delete.sh gen1` would delete the Genesis specific resources (but *not* global ones)
+* `delete.sh` would delete *only* global resources, but not servers
+
+As the exposing of servers happen using a NodePort you need to manually add a firewall rule as well, Google Cloud example:
+
+`gcloud compute firewall-rules create ark-valg --allow udp:31021-31023` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately)
 
 *Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git!
 
