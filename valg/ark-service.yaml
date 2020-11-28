@@ -7,24 +7,24 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 29011 # Internal service entrypoint inside the cluster
-    targetPort: 31011 # What to hit on the target container
-    nodePort: 31011 # External service entrypoint to get *into* the cluster along with a node IP
+  - port: 29021 # Internal service entrypoint inside the cluster
+    targetPort: 31021 # What to hit on the target container
+    nodePort: 31021 # External service entrypoint to get *into* the cluster along with a node IP
     protocol: UDP
     name: ark-valg-client # This is the regular client connect port
-  - port: 29012
-    targetPort: 31012
-    nodePort: 31012
+  - port: 29022
+    targetPort: 31022
+    nodePort: 31022
     protocol: UDP
     name: ark-valg-raw # This is the "raw" client connect port whatever that means
-  - port: 29013
-    targetPort: 31013
-    nodePort: 31013
+  - port: 29023
+    targetPort: 31023
+    nodePort: 31023
     protocol: UDP
     name: ark-valg-steam # This supports the Steam server browser
-  - port: 29014
-    targetPort: 31014
-    nodePort: 31014
+  - port: 29024
+    targetPort: 31024
+    nodePort: 31024
     protocol: TCP
     name: ark-valg-rcon # For remote admin
   selector:
