@@ -15,7 +15,7 @@ Apply the resources to a target Kubernetes cluster with some attention paid to o
 * `delete.sh gen1` would delete the Genesis specific resources (but *not* global ones)
 * `delete.sh` would delete *only* global resources, but not servers
 
-As the exposing of servers happen using a NodePort you need to manually add a firewall rule as well, Google Cloud example:
+As the exposing of servers happen using a NodePort (LoadBalancers are overkill and seemed to break cluster transfers) you need to manually add a firewall rule as well, Google Cloud example:
 
 `gcloud compute firewall-rules create ark-valg --allow udp:31021-31023` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately)
 
@@ -55,7 +55,7 @@ During Ark Manager and game server startup the file appears to be somewhat rewri
 
 ## Connecting to your server
 
-Find your IP via `kubectl get svc arkgame-service`, add `[IP]:[port]` to the Steam server panel then find games at that address and mark your server as a favorite. It should now show up in-game. It takes a little while for the server to come online, you can watch it with `kubectl logs arkgame-7d74dd65bc-gqckv` (adjust accordingly to your pod name, seen with `kubectl get pods`) or by using `arkmanager status` on a remote shell.
+Find an IP to one of your cluster nodes (the longer lived the better) by using `kubectl get nodes -o wide`, then add the right port from your server set, for instance `31013` for Genesis to get `[IP]:[port]` for the Steam server panel then find games at that address and mark your server as a favorite. It should now show up in-game. It takes a little while for the server to come online, you can watch it with `kubectl logs <map-name>-<gibberish>` (adjust accordingly to your pod name, seen with `kubectl get pods`) 
 
 ## License
 

@@ -49,7 +49,7 @@ data:
 
     arkflag_log=""
     arkflag_USEALLAVAILABLECORES=true
-    #arkflag_crossplay=true
+    arkflag_crossplay=true
     arkflag_NoTransferFromFiltering=true
     arkflag_NoBattlEye=true
 

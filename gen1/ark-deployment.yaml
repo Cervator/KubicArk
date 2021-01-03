@@ -17,6 +17,13 @@ spec:
       containers:
       - image: nightdragon1/ark-docker
         name: arkgame
+        resources:
+          requests:
+            cpu: 250m
+            memory: 7Gi
+          limits:
+            cpu: 2000m
+            memory: 10Gi
         env:
           # Server Parameters
         - name: SESSIONNAME
@@ -24,7 +31,7 @@ spec:
         - name: STEAMPORT # Bad name? is actually the general connect port (27015 is for Steam, yet named SERVERPORT in the Docker image - fix?)
           value: "31012" # Actually unsure if this should be the default 7777 or 7778 (that one, opens a -1 port too) - Docker image defaults to 7778, raw UDP.
         - name: SERVERPORT # This is really the Steam query port
-          value: "31013"  # Must be in quotes! Since it is meant as a value to put into an environment variable
+          value: "31013"  # Must be in quotes since it is meant as a value to put into an environment variable
         - name: RCONPORT
           value: "31014"
         - name: SERVERMAP
