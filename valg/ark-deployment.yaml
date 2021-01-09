@@ -17,6 +17,13 @@ spec:
       containers:
       - image: nightdragon1/ark-docker
         name: arkgame
+        resources:
+          requests:
+            cpu: 350m
+            memory: 7.25Gi
+          limits:
+            cpu: 2000m
+            memory: 10Gi
         env:
           # Server Parameters
         - name: SESSIONNAME

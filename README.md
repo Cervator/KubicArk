@@ -17,7 +17,7 @@ Apply the resources to a target Kubernetes cluster with some attention paid to o
 
 As the exposing of servers happen using a NodePort (LoadBalancers are overkill and seemed to break cluster transfers) you need to manually add a firewall rule as well, Google Cloud example:
 
-`gcloud compute firewall-rules create ark-valg --allow udp:31021-31023` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately)
+`gcloud compute firewall-rules create ark-gen1 --allow udp:31011-31013` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately)
 
 *Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git!
 

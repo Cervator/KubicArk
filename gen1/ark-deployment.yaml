@@ -19,8 +19,8 @@ spec:
         name: arkgame
         resources:
           requests:
-            cpu: 250m
-            memory: 7Gi
+            cpu: 350m
+            memory: 7.25Gi
           limits:
             cpu: 2000m
             memory: 10Gi
