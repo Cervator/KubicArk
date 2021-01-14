@@ -6,6 +6,9 @@ An eventual goal is to include automatic server hibernation to keep hosting cost
 
 Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from https://github.com/NightDragon1/Ark-docker which in turn uses https://github.com/arkmanager/ark-server-tools for helpful management of the game server installation on Linux.
 
+**Important:** Has a dependency on the dynamic NFS storage from [KubicGameHosting](https://github.com/Cervator/KubicGameHosting) since the cluster file share must be `ReadWriteMany` access mode for multiple pods to work with it at once.
+
+
 ## Instructions
 
 Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-server.sh` and `delete.sh` scripts
