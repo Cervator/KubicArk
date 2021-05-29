@@ -11,7 +11,7 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 ## Instructions
 
-Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-server.sh` and `delete.sh` scripts
+Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-server.sh` and `delete.sh` scripts which will work against an `ark` namespace
 
 * `apply-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
 * `apply.server.sh valg` would likewise create Valguero
@@ -23,6 +23,25 @@ As the exposing of servers happen using a NodePort (LoadBalancers are overkill a
 `gcloud compute firewall-rules create ark-gen1 --allow udp:31011-31013` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately)
 
 *Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git!
+
+
+### Isolated namespace
+
+For extra security and to be able to hand out credentials to others (or robots) it helps to put everything into its own namespace and have a service user to allow access.
+
+For more details and the quick bit of inspiration used to write these examples see https://jeremievallee.com/2018/05/28/kubernetes-rbac-namespace-user.html
+
+Start within a shell with admin (or otherwise enough) access to the target Kubernetes cluster, such as an authenticated Google Cloud Shell, and use the files in the `auth` directory:
+
+* `kubectl create namespace ark` - if not already done
+* `kubectl apply -f auth` - creates the user-related resources
+* `kubectl describe sa ark-user -n ark`
+* Note the full name of the secret and token, for instance `ark-user-token-4smst`, then get the full user token and certificate
+* `kubectl get secret ark-user-token-4smst -n ark -o "jsonpath={.data.token}" | base64 -d`
+* `kubectl get secret ark-user-token-4smst -n ark -o "jsonpath={.data['ca\.crt']}"`
+* Fill the `auth/config.sample` in with the cert and token
+* Use that file however needed for Kubernetes access limited to the given namespace!
+
 
 ## ARK Configuration files
 
