@@ -11,12 +11,14 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 ## Instructions
 
-Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the `apply-server.sh` and `delete.sh` scripts which will work against an `ark` namespace
+Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the included scripts which will work against an `ark` namespace
 
-* `apply-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
-* `apply.server.sh valg` would likewise create Valguero
-* `delete.sh gen1` would delete the Genesis specific resources (but *not* global ones)
-* `delete.sh` would delete *only* global resources, but not servers
+* `./create-ns-and-auth.sh` would create the `ark` namespace and the auth setup (service user, role, and role binding) - just needed once 
+* `./start-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
+* `./start.server.sh valg` would likewise create Valguero
+* `./stop-server.sh gen1` would delete the Genesis specific resources (but *not* global ones), retaining the map save
+* `./stop-server.sh` would delete *only* global resources, but not servers
+* `./wipe-server.sh valg` does the same as stop but also **wipes** the server map (or the cluster save if used without a server arg)
 
 As the exposing of servers happen using a NodePort (LoadBalancers are overkill and seemed to break cluster transfers) you need to manually add a firewall rule as well, Google Cloud example:
 
@@ -41,6 +43,19 @@ Start within a shell with admin (or otherwise enough) access to the target Kuber
 * `kubectl get secret ark-user-token-4smst -n ark -o "jsonpath={.data['ca\.crt']}"`
 * Fill the `auth/config.sample` in with the cert and token
 * Use that file however needed for Kubernetes access limited to the given namespace!
+
+
+#### Using SA in Jenkins
+
+If the created service account is meant to be used in Jenkins for automatically interacting with a target Kubernetes cluster in a job do the following as well:
+
+* Make sure to install the https://plugins.jenkins.io/kubernetes-cli/ plugin
+* Create a new credential of the "secret text" type, paste the user token in there
+* Enable the "Setup Kubernetes CLI (kubectl)" step in a job (using a node with access to the `kubectl` executable)
+* Enter the API endpoint of the target cluster and select the secret text credential
+  * Do **not** enter the certificate in this case! For whatever reason it works locally in something like [Lens](https://k8slens.dev/) but in Jenkins including the cert will cause a weird cert failure (leaving the field blank seems to disable cert checking entirely - works fine)
+  
+At this point you should be able to run `kubectl` commands against the cluster, such as by using the included utility scripts.
 
 
 ## ARK Configuration files
