@@ -1,16 +1,19 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: arkvalguero
   labels:
     app: arkvalguero
 spec:
   replicas: 1
+  serviceName: ark-valg-service
   selector:
     matchLabels:
       app: arkvalguero
   template:
     metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false" # ARK servers do not readily bounce
       labels:
         app: arkvalguero
     spec:

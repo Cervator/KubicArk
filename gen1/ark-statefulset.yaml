@@ -1,16 +1,19 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: arkgenesis
   labels:
     app: arkgenesis
 spec:
   replicas: 1
+  serviceName: ark-gen1-service
   selector:
     matchLabels:
       app: arkgenesis
   template:
     metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false" # ARK servers do not readily bounce
       labels:
         app: arkgenesis
     spec:

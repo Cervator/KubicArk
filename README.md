@@ -11,7 +11,7 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 ## Instructions
 
-Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the deployment). Consider using the included scripts which will work against an `ark` namespace
+Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the statefulset). Consider using the included scripts which will work against an `ark` namespace
 
 * `./create-ns-and-auth.sh` would create the `ark` namespace and the auth setup (service user, role, and role binding) - just needed once 
 * `./start-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
@@ -35,11 +35,12 @@ For more details and the quick bit of inspiration used to write these examples s
 
 Start within a shell with admin (or otherwise enough) access to the target Kubernetes cluster, such as an authenticated Google Cloud Shell, and use the files in the `auth` directory:
 
+* (Note: the first three steps are included if you simply run `./create-ns-and-auth.sh`)
 * `kubectl create namespace ark` - if not already done
 * `kubectl apply -f auth` - creates the user-related resources
 * `kubectl describe sa ark-user -n ark`
 * Note the full name of the secret and token, for instance `ark-user-token-4smst`, then get the full user token and certificate
-* `kubectl get secret ark-user-token-4smst -n ark -o "jsonpath={.data.token}" | base64 -d`
+* `kubectl get secret ark-user-token-4smst -n ark -o "jsonpath={.data.token}" | base64 -d` (remember to change the gibberish after "token")
 * `kubectl get secret ark-user-token-4smst -n ark -o "jsonpath={.data['ca\.crt']}"`
 * Fill the `auth/config.sample` in with the cert and token
 * Use that file however needed for Kubernetes access limited to the given namespace!
@@ -78,7 +79,7 @@ Game config changes usually go into one of three main files - the `arkmanager.cf
 
 For instance with `GameUserSettings.ini` favor leaving a set of boring / default entries in the `GlobalGameUserSettingsCM.yaml` file then add the more interesting values you care about in `OverrideGameUserSettingsCM.yaml` making it easier to see what you've changed and how. Although game cluster-wide config settings may be best to leave in the global CM to avoid overlap.
 
-After initial config and provisioning you can change the CMs either via files or directly, such as via the nice Google Kubernetes Engine dashboard. Then simply delete the server pod (not the deployment) via dashboard or eventually using ChatOps. The persistent volume survives including the installed game server files, so it may not make an appreciable difference to restart the server (via Ark Manager in a remote shell) or blow it up. The deployment will auto-recreate the pod if deleted.
+After initial config and provisioning you can change the CMs either via files or directly, such as via the nice Google Kubernetes Engine dashboard. Then simply delete the server pod (not the statefulset) via dashboard or eventually using ChatOps. The persistent volume survives including the installed game server files, so it may not make an appreciable difference to restart the server (via Ark Manager in a remote shell) or blow it up. The statefulset will auto-recreate the pod if deleted.
 
 Note that the `arkmanager.cfg` entries will overwrite anything else, such as the server name.
 

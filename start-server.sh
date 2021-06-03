@@ -14,8 +14,7 @@ then
   echo "Hope you remembered to update the passwords in the secrets file only locally!"
   kubectl apply -f ark-server-secrets.yaml -n $targetns
   kubectl apply -f $1/ark-service.yaml -n $targetns
-  kubectl apply -f $1/ark-deployment.yaml -n $targetns
-  # TODO: Consider using a stateful set just to get a cleaner pod name? Only ever 0 or 1 instances ...
+  kubectl apply -f $1/ark-statefulset.yaml -n $targetns
 else
   echo "Didn't get exactly one arg, got $# ! $*"
   echo "Valid short server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst"

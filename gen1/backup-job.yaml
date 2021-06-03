@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: arkgenesisbackup
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: backup-container
+          image: busybox:1.28
+          volumeMounts:
+            - name: ark-gen1-persistent-storage
+              mountPath: /ark
+          command: ['sh', '-c']
+          # Simply make a tar of the desired ARK files and leave them in place for some other process to grab
+          args:
+            - cd /ark/server/ShooterGame/Saved/SavedArks;
+              ls -la;
+              tar cfz genesis_backup.tar.gz Genesis.ark *.arkprofile;
+              ls -la;
+      volumes:
+        - name: ark-gen1-persistent-storage
+          persistentVolumeClaim:
+            claimName: ark-gen1-pv-claim
