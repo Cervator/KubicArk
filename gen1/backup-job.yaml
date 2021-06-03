@@ -19,6 +19,8 @@ spec:
               ls -la;
               tar cfz gen1_backup.tar.gz Genesis.ark *.arkprofile;
               ls -la;
+              echo "Sleeping for a minute to allow somebody to come grab this file before exiting";
+              sleep 60;
       volumes:
         - name: ark-gen1-persistent-storage
           persistentVolumeClaim:
