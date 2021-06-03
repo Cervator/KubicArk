@@ -11,7 +11,7 @@ then
   kubectl get jobs -n ark
   pod=$(kubectl get pods -n ark --selector=job-name=ark${1}backup --output=jsonpath='{.items[*].metadata.name}')
   echo $pod
-  kubectl cp ark/$pod:/ark/server/ShooterGame/Saved/SavedArks/${1}.tar.gz ${1}.tar.gz
+  kubectl cp ark/$pod:/ark/server/ShooterGame/Saved/SavedArks/${1}_backup.tar.gz ${1}_backup.tar.gz
   ls -la
 else
   echo "Didn't get exactly one arg, so won't try to back anything up: $*"
