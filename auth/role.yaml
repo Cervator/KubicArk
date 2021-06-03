@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: ark-user-full-access
+  name: ark-user-general-access
   namespace: ark
 rules:
   - apiGroups: ["", "extensions", "apps"]

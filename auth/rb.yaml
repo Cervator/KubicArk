@@ -11,4 +11,4 @@ subjects:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: ark-user-full-access
+  name: ark-user-general-access
