@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: arkgen2backup
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: backup-container
+          image: busybox:1.28
+          volumeMounts:
+            - name: ark-gen2-persistent-storage
+              mountPath: /ark
+          command: ['sh', '-c']
+          # Simply make a tar of the desired ARK files and leave them in place for some other process to grab
+          # TODO: Need a wider file pattern (tribe files, paint files, etc)
+          args:
+            - cd /ark/server/ShooterGame/Saved/SavedArks;
+              ls -la;
+              tar cfz gen2_backup.tar.gz Genesis.ark *.arkprofile;
+              ls -la;
+              echo "Sleeping for a minute to allow somebody to come grab this file before exiting";
+              sleep 60;
+      volumes:
+        - name: ark-gen2-persistent-storage
+          persistentVolumeClaim:
+            claimName: ark-gen2-pv-claim

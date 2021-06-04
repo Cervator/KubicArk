@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-gen2-service
+  labels:
+    app: ark-gen2-service
+spec:
+  type: NodePort
+  ports:
+  - port: 29031 # Internal service entrypoint inside the cluster
+    targetPort: 31031 # What to hit on the target container
+    nodePort: 31031 # External service entrypoint to get *into* the cluster along with a node IP
+    protocol: UDP
+    name: ark-gen2-client # This is the regular client connect port
+  - port: 29032
+    targetPort: 31032
+    nodePort: 31032
+    protocol: UDP
+    name: ark-gen2-raw # This is the "raw" client connect port whatever that means
+  - port: 29033
+    targetPort: 31033
+    nodePort: 31033
+    protocol: UDP
+    name: ark-gen2-steam # This supports the Steam server browser
+  - port: 29034
+    targetPort: 31034
+    nodePort: 31034
+    protocol: TCP
+    name: ark-gen2-rcon # For remote admin
+  selector:
+    app: arkgenesis2
