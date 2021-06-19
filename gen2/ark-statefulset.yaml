@@ -23,10 +23,10 @@ spec:
         resources:
           requests:
             cpu: 350m
-            memory: 7.25Gi
+            memory: 12.75Gi # Genesis 2 seems unusually memory hungry
           limits:
             cpu: 2000m
-            memory: 10Gi
+            memory: 15Gi
         env:
           # Server Parameters
         - name: SESSIONNAME
