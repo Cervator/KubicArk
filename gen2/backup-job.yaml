@@ -18,7 +18,7 @@ spec:
           args:
             - cd /ark/server/ShooterGame/Saved/SavedArks;
               ls -la;
-              tar cfz --ignore-failed-read gen2_backup.tar.gz Gen2.ark *.arkprofile *.arktribe ServerPaintingsCache;
+              tar --ignore-failed-read -cfz gen2_backup.tar.gz Gen2.ark *.arkprofile *.arktribe ServerPaintingsCache;
               ls -la;
               echo "Sleeping for a minute to allow somebody to come grab this file before exiting";
               sleep 60;
