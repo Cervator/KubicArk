@@ -19,8 +19,7 @@ spec:
             - cd /ark/server/ShooterGame/Saved/SavedArks;
               ls -la;
               rm -f gen2_backup.tar.gz;
-              apk add findutils;
-              find \( -name Gen2.ark -o -name '*.arkprofile' -o -name '*.arktribe' -o -name ServerPaintingsCache \) -printf "%P\n" | tar cfz gen2_backup.tar.gz -C . -T -;
+              find \( -name Gen2.ark -o -name '*.arkprofile' -o -name '*.arktribe' -o -name ServerPaintingsCache \) | sed s,^./,, | tar cfz gen2_backup.tar.gz -C ./ -T -;
               ls -la;
               echo "Sleeping for a minute to allow somebody to come grab this file before exiting";
               sleep 60;
