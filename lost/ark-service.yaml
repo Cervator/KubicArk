@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-lost-service
+  labels:
+    app: ark-lost-service
+spec:
+  type: NodePort
+  ports:
+  - port: 29091 # Internal service entrypoint inside the cluster
+    targetPort: 31091 # What to hit on the target container
+    nodePort: 31091 # External service entrypoint to get *into* the cluster along with a node IP
+    protocol: UDP
+    name: ark-lost-client # This is the regular client connect port
+  - port: 29092
+    targetPort: 31092
+    nodePort: 31092
+    protocol: UDP
+    name: ark-lost-raw # This is the "raw" client connect port whatever that means
+  - port: 29093
+    targetPort: 31093
+    nodePort: 31093
+    protocol: UDP
+    name: ark-lost-steam # This supports the Steam server browser
+  - port: 29094
+    targetPort: 31094
+    nodePort: 31094
+    protocol: TCP
+    name: ark-lost-rcon # For remote admin
+  selector:
+    app: arklost

@@ -10,7 +10,7 @@ then
   kubectl delete -f $1/ark-service.yaml -n $targetns
 else
   echo "Didn't get exactly one arg, so will delete global things instead and WIPE the cluster save. Got: $*"
-  echo "Valid short server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst"
+  echo "Valid short server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst, lost"
   kubectl delete -f ark-pvc-shared.yaml -n $targetns
   kubectl delete -f ArkManagerCfgCM.yaml -n $targetns
   kubectl delete -f GlobalGameUserSettingsCM.yaml -n $targetns

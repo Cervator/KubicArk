@@ -19,5 +19,5 @@ then
   ls -la
 else
   echo "Didn't get exactly one arg, so won't try to back anything up: $*"
-  echo "Valid short server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst"
+  echo "Valid short server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst, lost"
 fi
