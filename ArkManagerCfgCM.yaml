@@ -56,3 +56,7 @@ data:
     # Clustering
     arkopt_clusterid=kubicarkcluster
     arkopt_ClusterDirOverride=/ark-shared
+
+    # By default have no live event
+    arkopt_ActiveEvent=None
+    # Options: Easter Arkaeology ExtinctionChronicles WinterWonderland vday Summer FearEvolved TurkeyTrial birthday None
