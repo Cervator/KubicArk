@@ -23,10 +23,10 @@ spec:
         resources:
           requests:
             cpu: 350m
-            memory: 7.25Gi
+            memory: 10Gi
           limits:
             cpu: 2000m
-            memory: 10Gi
+            memory: 13Gi
         env:
           # Server Parameters
         - name: SESSIONNAME
