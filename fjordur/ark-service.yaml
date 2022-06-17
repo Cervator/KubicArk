@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-fjordur-service
+  labels:
+    app: ark-fjordur-service
+spec:
+  type: NodePort
+  ports:
+  - port: 29081 # Internal service entrypoint inside the cluster
+    targetPort: 31081 # What to hit on the target container
+    nodePort: 31081 # External service entrypoint to get *into* the cluster along with a node IP
+    protocol: UDP
+    name: ark-fjor-client # This is the regular client connect port
+  - port: 29082
+    targetPort: 31082
+    nodePort: 31082
+    protocol: UDP
+    name: ark-fjor-raw # This is the "raw" client connect port whatever that means
+  - port: 29083
+    targetPort: 31083
+    nodePort: 31083
+    protocol: UDP
+    name: ark-fjor-steam # This supports the Steam server browser
+  - port: 29084
+    targetPort: 31084
+    nodePort: 31084
+    protocol: TCP
+    name: ark-fjor-rcon # For remote admin
+  selector:
+    app: arkfjordur

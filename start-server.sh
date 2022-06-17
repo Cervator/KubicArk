@@ -17,5 +17,5 @@ then
   kubectl apply -f $1/ark-statefulset.yaml -n $targetns
 else
   echo "Didn't get exactly one arg, got $# ! $*"
-  echo "Valid short server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst, lost"
+  echo "Valid short server/map names are: islan, cent, scorc, rag, ab, ext, valg, gen1, cryst, lost, fjordur"
 fi

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ark-fjordur-override-user-settings-cm
+data:
+  # Note: Even with this called an "override" config file any settings from the Ark Manager will take precedence
+  OverrideGameUserSettings.ini: |-
+    [MessageOfTheDay]
+    Duration=20
+    Message=Yarrrr! Wait, Vikings. Yåæørrrrr!
