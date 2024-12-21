@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ark-shared-pv-claim
-  annotations:
+  name: ark-shared-pv-claim-notfancy
+  #annotations: TODO: Fix!
     # Depends on KubicGameServer's setup of a dynamic NFS to provision RWM storage to share between pods
-    volume.beta.kubernetes.io/storage-class: "dynamic-nfs"
+  #  volume.beta.kubernetes.io/storage-class: "dynamic-nfs"
 spec:
   accessModes:
-    - ReadWriteMany
+    #- ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi # Must fit within dynamic NFS space available (by default 2021-01-13 this is 5Gi)
