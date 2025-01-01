@@ -110,7 +110,7 @@ spec:
           claimName: ark-valg-pv-claim
       - name: ark-persistent-shared-storage
         persistentVolumeClaim:
-          claimName: ark-shared-pv-claim-notfancy
+          claimName: ark-shared-pv-claim
       - name: ark-valg-config-volume
         projected:
           sources:

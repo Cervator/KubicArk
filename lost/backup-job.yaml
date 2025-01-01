@@ -18,7 +18,7 @@ spec:
             - cd /ark/server/ShooterGame/Saved/SavedArks;
               ls -la;
               rm -f lost_backup.tar.gz;
-              find \( -name Lost.ark -o -name '*.arkprofile' -o -name '*.arktribe' -o -name ServerPaintingsCache \) | sed s,^./,, | tar cfz lost_backup_backup.tar.gz -C ./ -T -;
+              find \( -name LostIsland.ark -o -name '*.arkprofile' -o -name '*.arktribe' -o -name ServerPaintingsCache \) | sed s,^./,, | tar cfz lost_backup_backup.tar.gz -C ./ -T -;
               ls -la;
               echo "Sleeping for a minute to allow somebody to come grab this file before exiting";
               sleep 60;

@@ -8,6 +8,7 @@ Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from h
 
 **Important:** Has a dependency on the dynamic NFS storage from [KubicGameHosting](https://github.com/Cervator/KubicGameHosting) since the cluster file share must be `ReadWriteMany` access mode for multiple pods to work with it at once.
 
+Alternatively if you only ever plan on a single server and don't want the cluster share to work (and thus not need to install the custom storage type piece mentioned) you can remove the `storageClassName` and `accessModes` parts of `ark-pvc-shared.yaml` - just beware that running a second server will then fail as it cannot mount the shared volume to a second pod.
 
 ## Instructions
 
