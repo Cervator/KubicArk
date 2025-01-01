@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: arkgen1backup
+  name: arkvalguerobackup
 spec:
   template:
     spec:
@@ -10,19 +10,19 @@ spec:
         - name: backup-container
           image: busybox:1.28
           volumeMounts:
-            - name: ark-gen1-persistent-storage
+            - name: ark-valguero-persistent-storage
               mountPath: /ark
           command: ['sh', '-c']
           # Simply make a tar of the desired ARK files and leave them in place for some other process to grab
           args:
             - cd /ark/server/ShooterGame/Saved/SavedArks;
               ls -la;
-              rm -f gen1_backup.tar.gz;
-              find \( -name Genesis.ark -o -name '*.arkprofile' -o -name '*.arktribe' -o -name ServerPaintingsCache \) | sed s,^./,, | tar cfz gen1_backup.tar.gz -C ./ -T -;
+              rm -f valguero_backup.tar.gz;
+              find \( -name Valguero.ark -o -name '*.arkprofile' -o -name '*.arktribe' -o -name ServerPaintingsCache \) | sed s,^./,, | tar cfz valguero_backup_backup.tar.gz -C ./ -T -;
               ls -la;
               echo "Sleeping for a minute to allow somebody to come grab this file before exiting";
               sleep 60;
       volumes:
-        - name: ark-gen1-persistent-storage
+        - name: ark-valguero-persistent-storage
           persistentVolumeClaim:
-            claimName: ark-gen1-pv-claim
+            claimName: ark-valguero-pv-claim
