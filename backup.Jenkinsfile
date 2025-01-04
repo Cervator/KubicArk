@@ -4,6 +4,7 @@ pipeline {
     }
     
     environment {
+        // Use the parent folder name as server name. If the path changes the index here may need to change too!
         serverName = "${env.JOB_NAME.tokenize('/')[2]}" 
     }
 
