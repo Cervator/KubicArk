@@ -31,13 +31,20 @@ then
 
   # Print the .ark file name for debugging
   echo "$server_name uses the ark file name: ${server_maps[$server_name]}" 
+  kubectl get ns
 
   # Execute the backup command
-  kubectl get ns
   #kubectl exec -it "$pod_name" -n "$namespace" -- sh -c "$backup_command"
 
   # Copy the backup file
   #kubectl cp "$pod_name":"$backup_file" "$backup_file" -c <container-name> -n "$namespace"
+                            
+  # Get the current timestamp to use in the bucket folder hierarchy
+  timestamp=$(date +%Y%m%d-%H%M%S)
+
+  echo "This is a test file from Jenkins." > backup.txt
+
+  gsutil cp backup.txt gs://kubic-game-hosting/ark/${server_name}/${timestamp}/backup.txt
 
 else
   echo "Didn't get exactly one arg, so won't try to back anything up: $*"
