@@ -58,6 +58,13 @@ then
   backup_file="${server_name}_backup.tar.gz"
   pod_name="ark${server_name}-0"
 
+  # Check if the pod exists
+  kubectl get pod ${pod_name} -n ark > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "Error: Pod ${pod_name} not found."
+    exit 1
+  fi
+
   # Delete the old backup file on the server then create a new one full of various ARK goodies
   kubectl exec -it ${pod_name} -n ark -- sh -c "
     rm -f ${saves_path}/${backup_file};
