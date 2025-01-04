@@ -4,7 +4,7 @@ pipeline {
     }
     
     environment {
-        serverName = "${env.JOB_NAME.tokenize('/')[1]}" 
+        serverName = "${env.JOB_NAME.tokenize('/')[2]}" 
     }
 
     stages {

@@ -8,19 +8,19 @@
 #!/bin/bash
 
 # Map of server names to their .ark file names
-declare -A server_maps=(
-  ["island"]="island.ark"
-  ["center"]="center.ark"
-  ["scorched"]="scorched.ark"
-  ["ragnarok"]="ragnarok.ark"
-  ["aberration"]="aberration.ark"
-  ["extinction"]="extinction.ark"
-  ["valguero"]="Valguero_P.ark"
-  ["genesis1"]="Genesis.ark"
-  ["genesis2"]="Gen2.ark"
-  ["crystal"]="crystal.ark"
-  ["lost"]="LostIsland.ark"
-  ["fjordur"]="Fjordur.ark"
+server_maps=(
+  "island=island.ark"
+  "center=center.ark"
+  "scorched=scorched.ark"
+  "ragnarok=ragnarok.ark"
+  "aberration=aberration.ark"
+  "extinction=extinction.ark"
+  "valguero=Valguero_P.ark"
+  "genesis1=Genesis.ark"
+  "genesis2=Gen2.ark"
+  "crystal=crystal.ark"
+  "lost=LostIsland.ark"
+  "fjordur=Fjordur.ark"
 )
 
 if [ $# -eq 1 ]
@@ -29,8 +29,17 @@ then
   # Get the server name from the command-line argument
   server_name=$1
 
+  # Find the element in the array that matches the server name
+  for entry in "${server_maps[@]}"; do
+    key=$(echo "$entry" | cut -d '=' -f 1)
+    if [ "$key" = "$server_name" ]; then
+      ark_file=$(echo "$entry" | cut -d '=' -f 2)
+      break
+    fi
+  done
+
   # Print the .ark file name for debugging
-  echo "$server_name uses the ark file name: ${server_maps[$server_name]}" 
+  echo "$server_name uses the ark file name: $ark_file"
   kubectl get ns
 
   # Execute the backup command
