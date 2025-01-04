@@ -1,32 +1,51 @@
 ## Kubic Ark
 
-A setup for making [ARK: Survival Evolved](https://store.steampowered.com/app/346110/ARK_Survival_Evolved) work in a Kubernetes cluster, with extra conveniences around config files (stored in ConfigMaps) and full *game* cluster setup within the same Kubernetes cluster, sharing config details when able to avoid duplication and hassle.
+A setup for making [ARK: Survival Evolved](https://store.steampowered.com/app/346110/ARK_Survival_Evolved) work in a Kubernetes cluster, with extra conveniences around config files (stored in ConfigMaps) and full *game* cluster setup, sharing config details when able to avoid duplication and hassle.
 
 An eventual goal is to include automatic server hibernation to keep hosting costs down while using [ChatOps](https://docs.stackstorm.com/chatops/chatops.html) for server maintenance tasks (for instance: asking a bot on Discord to please start up the server hosting map `x` when somebody wants to play there)
 
 Uses the [Docker image](https://hub.docker.com/r/nightdragon1/ark-docker) from https://github.com/NightDragon1/Ark-docker which in turn uses https://github.com/arkmanager/ark-server-tools for helpful management of the game server installation on Linux.
 
-**Important:** Has a dependency on the dynamic NFS storage from [KubicGameHosting](https://github.com/Cervator/KubicGameHosting) since the cluster file share must be `ReadWriteMany` access mode for multiple pods to work with it at once.
+**Important:** This project as written has a dependency on the dynamic NFS storage from [KubicGameHosting](https://github.com/Cervator/KubicGameHosting) since the cluster file share must be `ReadWriteMany` access mode for multiple pods to work with it at once.
 
 Alternatively if you only ever plan on a single server and don't want the cluster share to work (and thus not need to install the custom storage type piece mentioned) you can remove the `storageClassName` and `accessModes` parts of `ark-pvc-shared.yaml` - just beware that running a second server will then fail as it cannot mount the shared volume to a second pod.
 
 ## Instructions
 
-Apply the resources to a target Kubernetes cluster with some attention paid to order (config maps and storage before the statefulset). Consider using the included scripts which will work against an `ark` namespace
+Initial creation of a Kubernetes cluster is beyond the scope of this guide, but The Terasology Foundation's setup (used by the author here) can be reviewed at https://github.com/MovingBlocks/Logistics - although that covers a lot more than the sort of basic cluster setup you'd need for ARK. 
+
+Realistically even hosting ARK in a Kubernetes cluster is somewhat overly nerdy and expensive, unless you're bored, have a reason to nerd out, and/or may need to support a larger number of players to where paying per-slot on a typical game host would actually end up more costly. Although at that point a bare metal or simple VM server would probably still be easier and cheaper! :-)
+
+To do it the nerdy way: Use the included scripts which will work against an `ark` namespace
 
 * `./create-ns-and-auth.sh` would create the `ark` namespace and the auth setup (service user, role, and role binding) - just needed once 
 * `./start-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
 * `./start.server.sh valg` would likewise create Valguero
 * `./stop-server.sh gen1` would delete the Genesis specific resources (but *not* global ones), retaining the map save
 * `./stop-server.sh` would delete *only* global resources, but not servers
-* `./wipe-server.sh valg` does the same as stop but also **wipes** the server map (or the cluster save if used without a server arg)
+* `./wipe-server.sh valg` does the same as stop but also **wipes** the server map (or the cluster save if used without a server arg!)
 
-As the exposing of servers happen using a NodePort (LoadBalancers are overkill and seemed to break cluster transfers) you need to manually add a firewall rule as well, Google Cloud example:
+As the exposing of servers happen using a NodePort (LoadBalancers are overkill are problematic to get working with UDP traffic) you need to manually add a firewall rule as well, Google Cloud example:
 
 `gcloud compute firewall-rules create ark-gen1 --allow udp:31011-31013` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately)
 
-*Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git!
+*Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git! You might also want to change your cluster id if you leave clustering enabled (and especially if you set no password - see below)
 
+### Connecting to your server
+
+Find an IP to one of your cluster nodes (the longer lived the better) by using `kubectl get nodes -o wide`, then add the right ####3 port (with the Steam name) from your server set, for instance `31013` for Genesis to get `[IP]:[port]` for the Steam server panel then find games at that address and mark your server as a favorite. It should now show up in-game with the favorites filter selected. It takes a while for the server to come online (half an hour or even longer first time), you can watch it with `kubectl logs <map-name>-<gibberish>` (adjust accordingly to your pod name, seen with `kubectl get pods`) or execute a status check with something like `kubectl exec arklost-0 -n ark -- arkmanager status`
+
+Note that over time your external IP may change. The Steam server panel actually stores `IP:Port` even if you supply a domain name that points to your IP, so if you originally entered it that way it will _not_ update even if you update the target IP via DNS. You'll have to re-add the server at the new IP.
+
+### Empty password, Epic Crossplay, and Game Cluster travel
+
+The config by default allows game cluster travel and crossplay between the Steam and Epic versions of ARK, however the default also sets a server password which is _not_ supported with Epic
+
+With no password Epic crossplay was tested successfully at the very beginning of 2025, as was _game cluster travel_ between maps, which is supported between any servers configured with the same cluster id (set in `ArkManagerCfgCM`) - so you should probably also change that id or you might find yourself clustered with total strangers!
+
+However, server travel with or without a password can apparently be problematic. One case with an empty password set allowed both Steam and Epic to initially connect without entering a password, but if attempting to _travel_ between servers (on Steam, at least) a password prompt on connecting still showed up. On simply submitting an empty password an error appeared ("Connection error - Invalid server password (Empty Password Field)") but the character _was_ transferred to the cluster "limbo" space meaning you could go back to the server list, again select the target server (may have to re-select the "Favorites" filter first), and connect - your character then is given the option to spawn on the target map with their inventory and such complete.
+
+## Technical details
 
 ### Isolated namespace
 
@@ -60,7 +79,7 @@ If the created service account is meant to be used in Jenkins for automatically 
 At this point you should be able to run `kubectl` commands against the cluster, such as by using the included utility scripts.
 
 
-## ARK Configuration files
+### ARK Configuration files
 
 To easily configure a given ARK server via Git without touching the server several server config files are included via Kubernetes Config Maps (CMs)
 
@@ -84,17 +103,13 @@ After initial config and provisioning you can change the CMs either via files or
 
 Note that the `arkmanager.cfg` entries will overwrite anything else, such as the server name.
 
-### Gory details
+### Additional Gory details
 
 On initial creating of a game server pod the CMs associated with that pod will be mapped to a projected volume in `/ark/config/` - essentially meaning you'll get files there representing the CMs. As part of initialization those files are either copied forward to somewhere else or used for symbolic links.
 
 The CMs that come in pairs will be combined to a "merged" file in the `/ark/` dir. This is crudely done and won't necessarily result in a pretty file, but ultimately the settings should be used by the game server. For `GameUserSettings.ini` for instance the Ark Manager is instructed via its config file `arkmanager.cfg` to copy in the merged file to the server directory at `/ark/server/ShooterGame/Saved/Config/LinuxServer` as the server starts up. This approach has the added benefit of working on the very first server start, no restart needed, all your customizations will be already applied.
 
 During Ark Manager and game server startup the file appears to be somewhat rewritten. The ini file `[category]` blocks for instance won't merge cleanly from the CM process, so it may be easier to exclude the category tags in the CM files, yet by the time the server is online those categories will have been readded (although not necessarily grouped correctly)
-
-## Connecting to your server
-
-Find an IP to one of your cluster nodes (the longer lived the better) by using `kubectl get nodes -o wide`, then add the right port from your server set, for instance `31013` for Genesis to get `[IP]:[port]` for the Steam server panel then find games at that address and mark your server as a favorite. It should now show up in-game. It takes a little while for the server to come online, you can watch it with `kubectl logs <map-name>-<gibberish>` (adjust accordingly to your pod name, seen with `kubectl get pods`) 
 
 ## License
 
