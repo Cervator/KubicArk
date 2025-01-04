@@ -54,20 +54,25 @@ then
 
   echo "$server_name uses the ark file name: $ark_file"
 
-  kubectl get ns
+  saves_path=/ark/server/ShooterGame/Saved/SavedArks
+  backup_file="${server_name}_backup.tar.gz"
+  pod_name="ark${server_name}-0"
 
-  # Execute the backup command
-  #kubectl exec -it "$pod_name" -n "$namespace" -- sh -c "$backup_command"
+  # Delete the old backup file on the server then create a new one full of various ARK goodies
+  kubectl exec -it ${pod_name} -n ark -- sh -c "
+    rm -f ${saves_path}/${backup_file};
+    find ${saves_path} \( -name ${ark_file} -o -name '*.arkprofile' -o -name '*.arktribe' -o -name ServerPaintingsCache \) -print0 | sed -z 's,^./,,g' | tar cfz ${saves_path}/${backup_file} -C ${saves_path} -T -;
+  "
 
-  # Copy the backup file
-  #kubectl cp "$pod_name":"$backup_file" "$backup_file" -c <container-name> -n "$namespace"
+  # Copy the backup file to the local directory
+  kubectl cp ${pod_name}:${saves_path}/${backup_file} ${backup_file} -n ark
+
+  echo "Backup complete: ${backup_file}"
                             
   # Get the current timestamp to use in the bucket folder hierarchy
   timestamp=$(date +%Y%m%d-%H%M%S)
 
-  echo "This is a test file from Jenkins." > backup.txt
-
-  gsutil cp backup.txt gs://kubic-game-hosting/ark/${server_name}/${timestamp}/backup.txt
+  gsutil cp ${backup_file} gs://kubic-game-hosting/ark/${server_name}/${timestamp}/${backup_file}
 
 else
   echo "Didn't get exactly one arg, so won't try to back anything up: $*"
