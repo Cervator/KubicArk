@@ -12,11 +12,11 @@ Alternatively if you only ever plan on a single server and don't want the cluste
 
 ## Instructions
 
-Initial creation of a Kubernetes cluster is beyond the scope of this guide, but The Terasology Foundation's setup (used by the author here) can be reviewed at https://github.com/MovingBlocks/Logistics - although that covers a lot more than the sort of basic cluster setup you'd need for ARK. 
+Initial creation of a Kubernetes cluster is beyond the scope of this guide, but The Terasology Foundation's setup (used by the author here) can be reviewed at https://github.com/MovingBlocks/Logistics - although that covers a lot more than the sort of basic cluster setup you'd need for ARK. It includes credential setup to connect to a Kubernetes cluster as well as a GCP bucket to store backups online.
 
 Realistically even hosting ARK in a Kubernetes cluster is somewhat overly nerdy and expensive, unless you're bored, have a reason to nerd out, and/or may need to support a larger number of players to where paying per-slot on a typical game host would actually end up more costly. Although at that point a bare metal or simple VM server would probably still be easier and cheaper! :-)
 
-To do it the nerdy way: Use the included scripts which will work against an `ark` namespace
+To do it the nerdy way: Use the included scripts which will work against an `ark` namespace - execute these while in a context where credentials for Kubernetes (and in the case of backups also one for GCP Storage) are present
 
 * `./create-ns-and-auth.sh` would create the `ark` namespace and the auth setup (service user, role, and role binding) - just needed once 
 * `./start-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
@@ -27,9 +27,11 @@ To do it the nerdy way: Use the included scripts which will work against an `ark
 
 As the exposing of servers happen using a NodePort (LoadBalancers are overkill are problematic to get working with UDP traffic) you need to manually add a firewall rule as well, Google Cloud example:
 
-`gcloud compute firewall-rules create ark-gen1 --allow udp:31011-31013` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately)
+`gcloud compute firewall-rules create ark-gen1 --allow udp:31011-31013` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately) - this _could_ be automated as well but is a one time thing that outside manual execution by a user (you) would take a somewhat unreasonable amount of complexity/access for what it achieves.
 
 *Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git! You might also want to change your cluster id if you leave clustering enabled (and especially if you set no password - see below)
+
+TODO: There should probably be a better way to set the password, such as via manually created Kubernetes secret, with a fallback if not present on what's in the local copy of `ark-server-secrets.yaml` - this would allow unattended execution from something like Jenkins to rely on an externally set password. Just applying the existing Secret once manually wouldn't help if the automation then goes and reapplies the pristine version every time it does something related.
 
 ### Connecting to your server
 
