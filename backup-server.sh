@@ -8,20 +8,7 @@
 #!/bin/bash
 
 # Map of server names to their .ark file names
-server_maps=(
-  "island=island.ark"
-  "center=center.ark"
-  "scorched=scorched.ark"
-  "ragnarok=ragnarok.ark"
-  "aberration=aberration.ark"
-  "extinction=extinction.ark"
-  "valguero=Valguero_P.ark"
-  "genesis1=Genesis.ark"
-  "genesis2=Gen2.ark"
-  "crystal=crystal.ark"
-  "lost=LostIsland.ark"
-  "fjordur=Fjordur.ark"
-)
+server_maps=("island=island.ark", "center=center.ark", "scorched=scorched.ark", "ragnarok=ragnarok.ark", "aberration=aberration.ark", "extinction=extinction.ark", "valguero=Valguero_P.ark", "genesis1=Genesis.ark", "genesis2=Gen2.ark", "crystal=crystal.ark", "lost=LostIsland.ark", "fjordur=Fjordur.ark")
 
 if [ $# -eq 1 ]
 then
