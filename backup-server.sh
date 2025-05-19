@@ -81,6 +81,8 @@ then
 
   gsutil cp ${backup_file} gs://kubic-game-hosting/ark/${server_name}/${timestamp}/${backup_file}
 
+  echo "Backup uploaded! Should be available at https://storage.googleapis.com/kubic-game-hosting/ark/${server_name}/${timestamp}/${backup_file}"
+
 else
   echo "Didn't get exactly one arg, so won't try to back anything up: $*"
   echo "See the list inside this shell script for the supported servers"
