@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-extinction-service
+  labels:
+    app: arkextinction
+spec:
+  ports:
+  - port: 31151
+    targetPort: 31151
+    protocol: UDP
+    name: ark-extinction-client
+  - port: 31152
+    targetPort: 31152
+    protocol: UDP
+    name: ark-extinction-raw
+  - port: 31153
+    targetPort: 31153
+    protocol: UDP
+    name: ark-extinction-steam
+  - port: 31154
+    targetPort: 31154
+    protocol: TCP
+    name: ark-extinction-rcon
+  selector:
+    app: arkextinction 

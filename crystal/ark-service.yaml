@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-crystal-service
+  labels:
+    app: arkcrystal
+spec:
+  ports:
+  - port: 31161
+    targetPort: 31161
+    protocol: UDP
+    name: ark-crystal-client
+  - port: 31162
+    targetPort: 31162
+    protocol: UDP
+    name: ark-crystal-raw
+  - port: 31163
+    targetPort: 31163
+    protocol: UDP
+    name: ark-crystal-steam
+  - port: 31164
+    targetPort: 31164
+    protocol: TCP
+    name: ark-crystal-rcon
+  selector:
+    app: arkcrystal 

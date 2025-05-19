@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-island-service
+  labels:
+    app: arkisland
+spec:
+  ports:
+  - port: 31101
+    targetPort: 31101
+    protocol: UDP
+    name: ark-island-client
+  - port: 31102
+    targetPort: 31102
+    protocol: UDP
+    name: ark-island-raw
+  - port: 31103
+    targetPort: 31103
+    protocol: UDP
+    name: ark-island-steam
+  - port: 31104
+    targetPort: 31104
+    protocol: TCP
+    name: ark-island-rcon
+  selector:
+    app: arkisland 

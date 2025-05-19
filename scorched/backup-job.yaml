@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ark-scorched-backup
+spec:
+  schedule: "0 */4 * * *"  # Every 4 hours
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: google/cloud-sdk:slim
+            command:
+            - /bin/sh
+            - -c
+            - |
+              gsutil cp gs://kubic-game-hosting/ark/scorched/$(date +%Y%m%d-%H%M%S)/scorched_backup.tar.gz gs://kubic-game-hosting/ark/scorched/$(date +%Y%m%d-%H%M%S)/scorched_backup.tar.gz
+          restartPolicy: OnFailure 

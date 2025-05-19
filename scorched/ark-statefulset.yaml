@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: arkscorched
+  labels:
+    app: arkscorched
+spec:
+  replicas: 1
+  serviceName: ark-scorched-service
+  selector:
+    matchLabels:
+      app: arkscorched
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+      labels:
+        app: arkscorched
+    spec:
+      containers:
+      - image: nightdragon1/ark-docker
+        name: arkgame
+        resources:
+          requests:
+            cpu: 350m
+            memory: 7.25Gi
+          limits:
+            cpu: 2000m
+            memory: 10Gi
+        env:
+        - name: SESSIONNAME
+          value: KubicArk - Scorched Earth
+        - name: STEAMPORT
+          value: "31122"
+        - name: SERVERPORT
+          value: "31123"
+        - name: RCONPORT
+          value: "31124"
+        - name: SERVERMAP
+          value: ScorchedEarth_P
+        - name: SERVERPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ark-server-secrets
+              key: serverPass
+        - name: ADMINPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ark-server-secrets
+              key: adminPass
+        ports:
+          - containerPort: 31121
+            protocol: UDP
+            name: ark-scorched-client
+          - containerPort: 31122
+            protocol: UDP
+            name: ark-scorched-raw
+          - containerPort: 31123
+            protocol: UDP
+            name: ark-scorched-steam
+          - containerPort: 31124
+            protocol: TCP
+            name: ark-scorched-rcon
+        volumeMounts:
+        - name: ark-scorched-persistent-storage
+          mountPath: /ark
+        - name: ark-persistent-shared-storage
+          mountPath: /ark-shared
+        - name: ark-scorched-config-volume
+          mountPath: /ark-config
+
+      initContainers:
+        - name: kubic-ark-prep-container
+          image: busybox:1.28
+          volumeMounts:
+          - name: ark-scorched-persistent-storage
+            mountPath: /ark
+          - name: ark-scorched-config-volume
+            mountPath: /ark-config
+          - name: ark-persistent-shared-storage
+            mountPath: /ark-shared
+          command: ['sh', '-c']
+          args:
+            - cd /ark-config;
+              ls -la;
+              rm -f /ark/MergedGameUserSettings.ini /ark/MergedGame.ini /ark/arkmanager.cfg /ark/server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini /ark/server/ShooterGame/Saved/Config/LinuxServer/Game.ini /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
+              cat GlobalGameUserSettings.ini >> /ark/MergedGameUserSettings.ini;
+              echo "" >> /ark/MergedGameUserSettings.ini;
+              cat OverrideGameUserSettings.ini >> /ark/MergedGameUserSettings.ini;
+              echo "" >> /ark/MergedGameUserSettings.ini;
+              cat GlobalGame.ini >> /ark/MergedGame.ini;
+              echo "" >> /ark/MergedGame.ini;
+              cat OverrideGame.ini >> /ark/MergedGame.ini;
+              echo "" >> /ark/MergedGame.ini;
+              mkdir -p /ark/server/ShooterGame/Saved/Config/LinuxServer;
+              cd /ark;
+              ln -s /ark-config/arkmanager.cfg arkmanager.cfg ;
+              ln -s /ark-config/AllowedCheaterSteamIDs.txt /ark/server/ShooterGame/Saved/AllowedCheaterSteamIDs.txt;
+              mkdir -p /ark/server/ShooterGame/Binaries/Linux/;
+              ln -s /ark-config/PlayersJoinNoCheck.txt /ark/server/ShooterGame/Binaries/Linux/PlayersJoinNoCheck.txt;
+              ln -s /ark-config/PlayersExclusiveJoinList.txt /ark/server/ShooterGame/Binaries/Linux/PlayersExclusiveJoinList.txt;
+              chmod 777 -R /ark-shared/
+      volumes:
+      - name: ark-scorched-persistent-storage
+        persistentVolumeClaim:
+          claimName: ark-scorched-pv-claim
+      - name: ark-persistent-shared-storage
+        persistentVolumeClaim:
+          claimName: ark-shared-pv-claim
+      - name: ark-scorched-config-volume
+        projected:
+          sources:
+          - configMap:
+              name: ark-global-user-settings-cm
+          - configMap:
+              name: ark-scorched-override-user-settings-cm
+          - configMap:
+              name: ark-global-game-ini-cm
+          - configMap:
+              name: ark-scorched-override-game-ini-cm
+          - configMap:
+              name: ark-manager-cm
+          - configMap:
+              name: ark-player-lists-cm 

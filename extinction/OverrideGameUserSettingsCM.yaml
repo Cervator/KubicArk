@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ark-extinction-override-user-settings-cm
+data:
+  OverrideGameUserSettings.ini: |-
+    [MessageOfTheDay]
+    Duration=20
+    Message=Welcome to Extinction! Survive in a post-apocalyptic Earth where Element has corrupted the planet. Tame corrupted creatures and battle the Titans! 

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-ragnarok-service
+  labels:
+    app: arkragnarok
+spec:
+  ports:
+  - port: 31131
+    targetPort: 31131
+    protocol: UDP
+    name: ark-ragnarok-client
+  - port: 31132
+    targetPort: 31132
+    protocol: UDP
+    name: ark-ragnarok-raw
+  - port: 31133
+    targetPort: 31133
+    protocol: UDP
+    name: ark-ragnarok-steam
+  - port: 31134
+    targetPort: 31134
+    protocol: TCP
+    name: ark-ragnarok-rcon
+  selector:
+    app: arkragnarok 

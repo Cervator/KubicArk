@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ark-scorched-override-game-ini-cm
+data:
+  OverrideGame.ini: |-
+    # No special overrides needed for Scorched Earth 

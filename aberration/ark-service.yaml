@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-aberration-service
+  labels:
+    app: arkaberration
+spec:
+  ports:
+  - port: 31141
+    targetPort: 31141
+    protocol: UDP
+    name: ark-aberration-client
+  - port: 31142
+    targetPort: 31142
+    protocol: UDP
+    name: ark-aberration-raw
+  - port: 31143
+    targetPort: 31143
+    protocol: UDP
+    name: ark-aberration-steam
+  - port: 31144
+    targetPort: 31144
+    protocol: TCP
+    name: ark-aberration-rcon
+  selector:
+    app: arkaberration 

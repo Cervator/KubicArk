@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ark-island-backup
+spec:
+  schedule: "0 */4 * * *"  # Every 4 hours
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: google/cloud-sdk:slim
+            command:
+            - /bin/sh
+            - -c
+            - |
+              gsutil cp gs://kubic-game-hosting/ark/island/$(date +%Y%m%d-%H%M%S)/island_backup.tar.gz gs://kubic-game-hosting/ark/island/$(date +%Y%m%d-%H%M%S)/island_backup.tar.gz
+          restartPolicy: OnFailure 
