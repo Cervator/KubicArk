@@ -11,7 +11,6 @@ pipeline {
     stages {
         stage('Check for Secret') {
             steps {
-                git branch: 'main', credentialsId: 'GooeyHub', url: 'https://github.com/Cervator/KubicArk.git' //TODO remove before committing
                 container("utility") {
                     // Authenticate with Kubernetes and see if an optional secret exists
                     withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
