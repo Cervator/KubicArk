@@ -51,16 +51,16 @@ spec:
         ports:
           - containerPort: 31051
             protocol: UDP
-            name: ark-extinction-client
+            name: ark-exti-client
           - containerPort: 31052
             protocol: UDP
-            name: ark-extinction-raw
+            name: ark-exti-raw
           - containerPort: 31053
             protocol: UDP
-            name: ark-extinction-steam
+            name: ark-exti-steam
           - containerPort: 31054
             protocol: TCP
-            name: ark-extinction-rcon
+            name: ark-exti-rcon
         volumeMounts:
         - name: ark-extinction-persistent-storage
           mountPath: /ark

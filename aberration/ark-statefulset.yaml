@@ -51,16 +51,16 @@ spec:
         ports:
           - containerPort: 31041
             protocol: UDP
-            name: ark-aberration-client
+            name: ark-aber-client
           - containerPort: 31042
             protocol: UDP
-            name: ark-aberration-raw
+            name: ark-aber-raw
           - containerPort: 31043
             protocol: UDP
-            name: ark-aberration-steam
+            name: ark-aber-steam
           - containerPort: 31044
             protocol: TCP
-            name: ark-aberration-rcon
+            name: ark-aber-rcon
         volumeMounts:
         - name: ark-aberration-persistent-storage
           mountPath: /ark

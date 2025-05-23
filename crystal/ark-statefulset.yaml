@@ -51,16 +51,16 @@ spec:
         ports:
           - containerPort: 31061
             protocol: UDP
-            name: ark-crystal-client
+            name: ark-crys-client
           - containerPort: 31062
             protocol: UDP
-            name: ark-crystal-raw
+            name: ark-crys-raw
           - containerPort: 31063
             protocol: UDP
-            name: ark-crystal-steam
+            name: ark-crys-steam
           - containerPort: 31064
             protocol: TCP
-            name: ark-crystal-rcon
+            name: ark-crys-rcon
         volumeMounts:
         - name: ark-crystal-persistent-storage
           mountPath: /ark

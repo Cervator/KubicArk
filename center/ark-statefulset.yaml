@@ -51,16 +51,16 @@ spec:
         ports:
           - containerPort: 31071
             protocol: UDP
-            name: ark-center-client
+            name: ark-cent-client
           - containerPort: 31072
             protocol: UDP
-            name: ark-center-raw
+            name: ark-cent-raw
           - containerPort: 31073
             protocol: UDP
-            name: ark-center-steam
+            name: ark-cent-steam
           - containerPort: 31074
             protocol: TCP
-            name: ark-center-rcon
+            name: ark-cent-rcon
         volumeMounts:
         - name: ark-center-persistent-storage
           mountPath: /ark

@@ -51,16 +51,16 @@ spec:
         ports:
           - containerPort: 31101
             protocol: UDP
-            name: ark-ragnarok-client
+            name: ark-ragn-client
           - containerPort: 31102
             protocol: UDP
-            name: ark-ragnarok-raw
+            name: ark-ragn-raw
           - containerPort: 31103
             protocol: UDP
-            name: ark-ragnarok-steam
+            name: ark-ragn-steam
           - containerPort: 31104
             protocol: TCP
-            name: ark-ragnarok-rcon
+            name: ark-ragn-rcon
         volumeMounts:
         - name: ark-ragnarok-persistent-storage
           mountPath: /ark

@@ -51,16 +51,16 @@ spec:
         ports:
           - containerPort: 31001
             protocol: UDP
-            name: ark-island-client
+            name: ark-isla-client
           - containerPort: 31002
             protocol: UDP
-            name: ark-island-raw
+            name: ark-isla-raw
           - containerPort: 31003
             protocol: UDP
-            name: ark-island-steam
+            name: ark-isla-steam
           - containerPort: 31004
             protocol: TCP
-            name: ark-island-rcon
+            name: ark-isla-rcon
         volumeMounts:
         - name: ark-island-persistent-storage
           mountPath: /ark
