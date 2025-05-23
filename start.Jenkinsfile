@@ -26,7 +26,7 @@ pipeline {
                                 env.ADMIN_PASSWORD = sh(returnStdout: true, script: "kubectl get secret ${secretName} -n ${namespace} -o jsonpath='{.data.adminPass}' | base64 -d").trim()
                                 echo "Retrieved server and admin passwords from secret"
                             } catch (err) {
-                                echo "Secret '${secretName}' not found in namespace '${namespace}'. No password update will be performed."
+                                //echo "Secret '${secretName}' not found in namespace '${namespace}'. No password update will be performed."
                                 env.secretExists = false
                             }
                         }
@@ -74,7 +74,8 @@ pipeline {
                             """
                             
                             // Wait for the StatefulSet to be ready
-                            sh "kubectl rollout status statefulset/ark${serverName} -n ark --timeout=300s"
+                            echo "Waiting for ARK server to be ready, this may take a while... (20 minutes isn't unheard of)"
+                            sh "kubectl rollout status statefulset/ark${serverName} -n ark --timeout=1200s"
                             
                             echo "ARK server for ${serverName} has been launched successfully"
                         }
@@ -86,7 +87,7 @@ pipeline {
     
     post {
         failure {
-            echo "Timed out waiting to launch ARK server for ${serverName}. Check the logs for details - server may be fine later."
+            echo "Job failed or timed out waiting to launch ARK server for ${serverName}. Check the logs for details - server may be fine later."
         }
     }
 }

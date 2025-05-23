@@ -16,8 +16,10 @@ Initial creation of a Kubernetes cluster is beyond the scope of this guide, but 
 
 Realistically even hosting ARK in a Kubernetes cluster is somewhat overly nerdy and expensive, unless you're bored, have a reason to nerd out, and/or may need to support a larger number of players to where paying per-slot on a typical game host would actually end up more costly. Although at that point a bare metal or simple VM server would probably still be easier and cheaper! :-)
 
-To do it the nerdy way: Use the included scripts which will work against an `ark` namespace - execute these while in a context where credentials for Kubernetes (and in the case of backups also one for GCP Storage) are present
+To do it the nerdy way: Use the included scripts which will work against an `ark` namespace - execute these while in a context where credentials for Kubernetes (and in the case of backups also one for GCP Storage) are present (read the later note on `unattended-passwor.yaml` and apply that first if desired)
 
+* `./backup-server.sh` - executes a backup of the target server and stores files in a Google Cloud bucket
+  * Note that this expects certain things present in the environment, which will be prepared if executed by Jenkins
 * `./create-ns-and-auth.sh` would create the `ark` namespace and the auth setup (service user, role, and role binding) - just needed once 
 * `./start-server.sh gen1` would create the Genesis Part 1 server (and any missing global resources)
 * `./start.server.sh valg` would likewise create Valguero
@@ -29,9 +31,11 @@ As the exposing of servers happen using a NodePort (LoadBalancers are overkill a
 
 `gcloud compute firewall-rules create ark-gen1 --allow udp:31011-31013` would prepare the ports for Genesis (except the RCON port, which uses TCP and can be covered separately) - this _could_ be automated as well but is a one time thing that outside manual execution by a user (you) would take a somewhat unreasonable amount of complexity/access for what it achieves.
 
+### Configuring Passwords
+
 *Note:* There are placeholder passwords in `ark-server-secrets.yaml` - you'll want to update these _but only locally where you run `kubectl` from_ - don't check your passwords into Git! You might also want to change your cluster id if you leave clustering enabled (and especially if you set no password - see below)
 
-TODO: There should probably be a better way to set the password, such as via manually created Kubernetes secret, with a fallback if not present on what's in the local copy of `ark-server-secrets.yaml` - this would allow unattended execution from something like Jenkins to rely on an externally set password. Just applying the existing Secret once manually wouldn't help if the automation then goes and reapplies the pristine version every time it does something related.
+A better password approach includes running this setup via Jenkins which means you cannot first manually edit  `ark-server-secrets.yaml` - even if you did and applied it once the next run in Jenkins would reset it (as it pulls fresh files from Git). So there is a _separate_ secret you can `kubectl apply -f unattended-password.yaml -n ark` to store the real thing permanently. Just make sure to edit _that_ password locally and only apply it once. If this secret does not exist whatever is in the main secret is used unmodified.
 
 ### Connecting to your server
 
@@ -48,6 +52,14 @@ The config by default allows game cluster travel and crossplay between the Steam
 With no password Epic crossplay was tested successfully at the very beginning of 2025, as was _game cluster travel_ between maps, which is supported between any servers configured with the same cluster id (set in `ArkManagerCfgCM`) - so you should probably also change that id or you might find yourself clustered with total strangers!
 
 However, server travel with or without a password can apparently be problematic. One case with an empty password set allowed both Steam and Epic to initially connect without entering a password, but if attempting to _travel_ between servers (on Steam, at least) a password prompt on connecting still showed up. On simply submitting an empty password an error appeared ("Connection error - Invalid server password (Empty Password Field)") but the character _was_ transferred to the cluster "limbo" space meaning you could go back to the server list, again select the target server (may have to re-select the "Favorites" filter first), and connect - your character then is given the option to spawn on the target map with their inventory and such complete.
+
+### Jenkins jobs
+
+There are both Jenkinsfiles (pipelines) and a Job DSL script included in this repo. The DSL can be copy pasted into a seed job that when executed will create a pile of server-specific start, backup, etc jobs. See [job DSL](https://plugins.jenkins.io/job-dsl/) for related documentation. You only need to do this once, or when you want fresh updates to the _structure_ of your jobs - if you simply get new Jenkinsfiles those will apply automatically on next execution.
+
+As it can be a little awkward developing DSL jobs there are validation scripts (in shell and powershell) that when executed will validate the DSL job file against a running Jenkins server for syntax correctness.
+
+If this sounds confusing simply ask your friendly local neighborhood Jenkins nerd. They are still out there, even if they're not wearing the butler outfit openly ...
 
 ## Technical details
 
@@ -69,7 +81,6 @@ Start within a shell with admin (or otherwise enough) access to the target Kuber
 * Fill the `auth/config.sample` in with the cert and token
 * Use that file however needed for Kubernetes access limited to the given namespace!
 
-
 #### Using SA in Jenkins
 
 TODO: This is outdated, probably refer to the scripts / Logistics then also need to doc the bucket setup 
@@ -83,7 +94,6 @@ If the created service account is meant to be used in Jenkins for automatically 
   * Do **not** enter the certificate in this case! For whatever reason it works locally in something like [Lens](https://k8slens.dev/) but in Jenkins including the cert will cause a weird cert failure (leaving the field blank seems to disable cert checking entirely - works fine)
   
 At this point you should be able to run `kubectl` commands against the cluster, such as by using the included utility scripts.
-
 
 ### ARK Configuration files
 
