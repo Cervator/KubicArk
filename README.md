@@ -39,6 +39,8 @@ Find an IP to one of your cluster nodes (the longer lived the better) by using `
 
 Note that over time your external IP may change. The Steam server panel actually stores `IP:Port` even if you supply a domain name that points to your IP, so if you originally entered it that way it will _not_ update even if you update the target IP via DNS. You'll have to re-add the server at the new IP.
 
+To connect to a server for the first time from the Epic client you may have to first start any single player world then hit `tab` and enter `open [IP]:[port]` - this will connect you to the server and likely auto-favorite it for future use.
+
 ### Empty password, Epic Crossplay, and Game Cluster travel
 
 The config by default allows game cluster travel and crossplay between the Steam and Epic versions of ARK, however the default also sets a server password which is _not_ supported with Epic
@@ -69,6 +71,8 @@ Start within a shell with admin (or otherwise enough) access to the target Kuber
 
 
 #### Using SA in Jenkins
+
+TODO: This is outdated, probably refer to the scripts / Logistics then also need to doc the bucket setup 
 
 If the created service account is meant to be used in Jenkins for automatically interacting with a target Kubernetes cluster in a job do the following as well:
 

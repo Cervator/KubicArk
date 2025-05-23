@@ -31,11 +31,11 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - Aberration
         - name: STEAMPORT
-          value: "31142"
+          value: "31042"
         - name: SERVERPORT
-          value: "31143"
+          value: "31043"
         - name: RCONPORT
-          value: "31144"
+          value: "31044"
         - name: SERVERMAP
           value: Aberration_P
         - name: SERVERPASSWORD
@@ -49,16 +49,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-          - containerPort: 31141
+          - containerPort: 31041
             protocol: UDP
             name: ark-aberration-client
-          - containerPort: 31142
+          - containerPort: 31042
             protocol: UDP
             name: ark-aberration-raw
-          - containerPort: 31143
+          - containerPort: 31043
             protocol: UDP
             name: ark-aberration-steam
-          - containerPort: 31144
+          - containerPort: 31044
             protocol: TCP
             name: ark-aberration-rcon
         volumeMounts:

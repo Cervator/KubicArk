@@ -31,11 +31,11 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - Crystal Isles
         - name: STEAMPORT
-          value: "31162"
+          value: "31062"
         - name: SERVERPORT
-          value: "31163"
+          value: "31063"
         - name: RCONPORT
-          value: "31164"
+          value: "31064"
         - name: SERVERMAP
           value: CrystalIsles
         - name: SERVERPASSWORD
@@ -49,16 +49,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-          - containerPort: 31161
+          - containerPort: 31061
             protocol: UDP
             name: ark-crystal-client
-          - containerPort: 31162
+          - containerPort: 31062
             protocol: UDP
             name: ark-crystal-raw
-          - containerPort: 31163
+          - containerPort: 31063
             protocol: UDP
             name: ark-crystal-steam
-          - containerPort: 31164
+          - containerPort: 31064
             protocol: TCP
             name: ark-crystal-rcon
         volumeMounts:

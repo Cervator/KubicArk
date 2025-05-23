@@ -5,21 +5,26 @@ metadata:
   labels:
     app: arkaberration
 spec:
+  type: NodePort
   ports:
-  - port: 31141
-    targetPort: 31141
+  - port: 29041
+    targetPort: 31041
+    nodePort: 31041
     protocol: UDP
     name: ark-aberration-client
-  - port: 31142
-    targetPort: 31142
+  - port: 29042
+    targetPort: 31042
+    nodePort: 31042
     protocol: UDP
     name: ark-aberration-raw
-  - port: 31143
-    targetPort: 31143
+  - port: 29043
+    targetPort: 31043
+    nodePort: 31043
     protocol: UDP
     name: ark-aberration-steam
-  - port: 31144
-    targetPort: 31144
+  - port: 29044
+    targetPort: 31044
+    nodePort: 31044
     protocol: TCP
     name: ark-aberration-rcon
   selector:

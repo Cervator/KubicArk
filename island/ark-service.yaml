@@ -5,21 +5,26 @@ metadata:
   labels:
     app: arkisland
 spec:
+  type: NodePort
   ports:
-  - port: 31101
-    targetPort: 31101
+  - port: 29001
+    targetPort: 31001
+    nodePort: 31001
     protocol: UDP
     name: ark-island-client
-  - port: 31102
-    targetPort: 31102
+  - port: 29002
+    targetPort: 31002
+    nodePort: 31002
     protocol: UDP
     name: ark-island-raw
-  - port: 31103
-    targetPort: 31103
+  - port: 29003
+    targetPort: 31003
+    nodePort: 31003
     protocol: UDP
     name: ark-island-steam
-  - port: 31104
-    targetPort: 31104
+  - port: 29004
+    targetPort: 31004
+    nodePort: 31004
     protocol: TCP
     name: ark-island-rcon
   selector:

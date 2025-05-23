@@ -31,11 +31,11 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - The Island
         - name: STEAMPORT
-          value: "31102"
+          value: "31002"
         - name: SERVERPORT
-          value: "31103"
+          value: "31003"
         - name: RCONPORT
-          value: "31104"
+          value: "31004"
         - name: SERVERMAP
           value: TheIsland
         - name: SERVERPASSWORD
@@ -49,16 +49,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-          - containerPort: 31101
+          - containerPort: 31001
             protocol: UDP
             name: ark-island-client
-          - containerPort: 31102
+          - containerPort: 31002
             protocol: UDP
             name: ark-island-raw
-          - containerPort: 31103
+          - containerPort: 31003
             protocol: UDP
             name: ark-island-steam
-          - containerPort: 31104
+          - containerPort: 31004
             protocol: TCP
             name: ark-island-rcon
         volumeMounts:

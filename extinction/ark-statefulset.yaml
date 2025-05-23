@@ -31,11 +31,11 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - Extinction
         - name: STEAMPORT
-          value: "31152"
+          value: "31052"
         - name: SERVERPORT
-          value: "31153"
+          value: "31053"
         - name: RCONPORT
-          value: "31154"
+          value: "31054"
         - name: SERVERMAP
           value: Extinction
         - name: SERVERPASSWORD
@@ -49,16 +49,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-          - containerPort: 31151
+          - containerPort: 31051
             protocol: UDP
             name: ark-extinction-client
-          - containerPort: 31152
+          - containerPort: 31052
             protocol: UDP
             name: ark-extinction-raw
-          - containerPort: 31153
+          - containerPort: 31053
             protocol: UDP
             name: ark-extinction-steam
-          - containerPort: 31154
+          - containerPort: 31054
             protocol: TCP
             name: ark-extinction-rcon
         volumeMounts:

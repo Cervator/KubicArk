@@ -5,21 +5,26 @@ metadata:
   labels:
     app: arkcenter
 spec:
+  type: NodePort
   ports:
-  - port: 31111
-    targetPort: 31111
+  - port: 29071
+    targetPort: 31071
+    nodePort: 31071
     protocol: UDP
     name: ark-center-client
-  - port: 31112
-    targetPort: 31112
+  - port: 29072
+    targetPort: 31072
+    nodePort: 31072
     protocol: UDP
     name: ark-center-raw
-  - port: 31113
-    targetPort: 31113
+  - port: 29073
+    targetPort: 31073
+    nodePort: 31073
     protocol: UDP
     name: ark-center-steam
-  - port: 31114
-    targetPort: 31114
+  - port: 29074
+    targetPort: 31074
+    nodePort: 31074
     protocol: TCP
     name: ark-center-rcon
   selector:

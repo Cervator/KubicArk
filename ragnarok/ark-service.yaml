@@ -5,21 +5,26 @@ metadata:
   labels:
     app: arkragnarok
 spec:
+  type: NodePort
   ports:
-  - port: 31131
-    targetPort: 31131
+  - port: 29101
+    targetPort: 31101
+    nodePort: 31101
     protocol: UDP
     name: ark-ragnarok-client
-  - port: 31132
-    targetPort: 31132
+  - port: 29102
+    targetPort: 31102
+    nodePort: 31102
     protocol: UDP
     name: ark-ragnarok-raw
-  - port: 31133
-    targetPort: 31133
+  - port: 29103
+    targetPort: 31103
+    nodePort: 31103
     protocol: UDP
     name: ark-ragnarok-steam
-  - port: 31134
-    targetPort: 31134
+  - port: 29104
+    targetPort: 31104
+    nodePort: 31104
     protocol: TCP
     name: ark-ragnarok-rcon
   selector:

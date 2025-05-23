@@ -31,11 +31,11 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - The Center
         - name: STEAMPORT
-          value: "31112"
+          value: "31072"
         - name: SERVERPORT
-          value: "31113"
+          value: "31073"
         - name: RCONPORT
-          value: "31114"
+          value: "31074"
         - name: SERVERMAP
           value: TheCenter
         - name: SERVERPASSWORD
@@ -49,16 +49,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-          - containerPort: 31111
+          - containerPort: 31071
             protocol: UDP
             name: ark-center-client
-          - containerPort: 31112
+          - containerPort: 31072
             protocol: UDP
             name: ark-center-raw
-          - containerPort: 31113
+          - containerPort: 31073
             protocol: UDP
             name: ark-center-steam
-          - containerPort: 31114
+          - containerPort: 31074
             protocol: TCP
             name: ark-center-rcon
         volumeMounts:

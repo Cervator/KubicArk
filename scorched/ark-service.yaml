@@ -5,21 +5,26 @@ metadata:
   labels:
     app: arkscorched
 spec:
+  type: NodePort
   ports:
-  - port: 31121
-    targetPort: 31121
+  - port: 29111
+    targetPort: 31111
+    nodePort: 31111
     protocol: UDP
     name: ark-scorched-client
-  - port: 31122
-    targetPort: 31122
+  - port: 29112
+    targetPort: 31112
+    nodePort: 31112
     protocol: UDP
     name: ark-scorched-raw
-  - port: 31123
-    targetPort: 31123
+  - port: 29113
+    targetPort: 31113
+    nodePort: 31113
     protocol: UDP
     name: ark-scorched-steam
-  - port: 31124
-    targetPort: 31124
+  - port: 29114
+    targetPort: 31114
+    nodePort: 31114
     protocol: TCP
     name: ark-scorched-rcon
   selector:

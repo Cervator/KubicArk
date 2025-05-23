@@ -5,21 +5,26 @@ metadata:
   labels:
     app: arkcrystal
 spec:
+  type: NodePort
   ports:
-  - port: 31161
-    targetPort: 31161
+  - port: 29061
+    targetPort: 31061
+    nodePort: 31061
     protocol: UDP
     name: ark-crystal-client
-  - port: 31162
-    targetPort: 31162
+  - port: 29062
+    targetPort: 31062
+    nodePort: 31062
     protocol: UDP
     name: ark-crystal-raw
-  - port: 31163
-    targetPort: 31163
+  - port: 29063
+    targetPort: 31063
+    nodePort: 31063
     protocol: UDP
     name: ark-crystal-steam
-  - port: 31164
-    targetPort: 31164
+  - port: 29064
+    targetPort: 31064
+    nodePort: 31064
     protocol: TCP
     name: ark-crystal-rcon
   selector:

@@ -31,11 +31,11 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - Scorched Earth
         - name: STEAMPORT
-          value: "31122"
+          value: "31112"
         - name: SERVERPORT
-          value: "31123"
+          value: "31113"
         - name: RCONPORT
-          value: "31124"
+          value: "31114"
         - name: SERVERMAP
           value: ScorchedEarth_P
         - name: SERVERPASSWORD
@@ -49,16 +49,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-          - containerPort: 31121
+          - containerPort: 31111
             protocol: UDP
             name: ark-scorched-client
-          - containerPort: 31122
+          - containerPort: 31112
             protocol: UDP
             name: ark-scorched-raw
-          - containerPort: 31123
+          - containerPort: 31113
             protocol: UDP
             name: ark-scorched-steam
-          - containerPort: 31124
+          - containerPort: 31114
             protocol: TCP
             name: ark-scorched-rcon
         volumeMounts:

@@ -5,21 +5,26 @@ metadata:
   labels:
     app: arkextinction
 spec:
+  type: NodePort
   ports:
-  - port: 31151
-    targetPort: 31151
+  - port: 29051
+    targetPort: 31051
+    nodePort: 31051
     protocol: UDP
     name: ark-extinction-client
-  - port: 31152
-    targetPort: 31152
+  - port: 29052
+    targetPort: 31052
+    nodePort: 31052
     protocol: UDP
     name: ark-extinction-raw
-  - port: 31153
-    targetPort: 31153
+  - port: 29053
+    targetPort: 31053
+    nodePort: 31053
     protocol: UDP
     name: ark-extinction-steam
-  - port: 31154
-    targetPort: 31154
+  - port: 29054
+    targetPort: 31054
+    nodePort: 31054
     protocol: TCP
     name: ark-extinction-rcon
   selector:

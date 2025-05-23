@@ -31,11 +31,11 @@ spec:
         - name: SESSIONNAME
           value: KubicArk - Ragnarok
         - name: STEAMPORT
-          value: "31132"
+          value: "31102"
         - name: SERVERPORT
-          value: "31133"
+          value: "31103"
         - name: RCONPORT
-          value: "31134"
+          value: "31104"
         - name: SERVERMAP
           value: Ragnarok
         - name: SERVERPASSWORD
@@ -49,16 +49,16 @@ spec:
               name: ark-server-secrets
               key: adminPass
         ports:
-          - containerPort: 31131
+          - containerPort: 31101
             protocol: UDP
             name: ark-ragnarok-client
-          - containerPort: 31132
+          - containerPort: 31102
             protocol: UDP
             name: ark-ragnarok-raw
-          - containerPort: 31133
+          - containerPort: 31103
             protocol: UDP
             name: ark-ragnarok-steam
-          - containerPort: 31134
+          - containerPort: 31104
             protocol: TCP
             name: ark-ragnarok-rcon
         volumeMounts:
